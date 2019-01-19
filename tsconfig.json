@@ -1,0 +1,31 @@
+{ 
+    "compilerOptions":{ 
+       "target":"esnext",
+       "moduleResolution":"node",
+       "module":"commonjs",
+       "declaration":false,
+       "noLib":false,
+       "emitDecoratorMetadata":true,
+       "experimentalDecorators":true,
+       "sourceMap":true,
+       "pretty":true,
+       "allowUnreachableCode":false,
+       "allowUnusedLabels":true,
+       "noImplicitAny":true,
+       "noImplicitReturns":true,
+       "noImplicitUseStrict":false,
+       "outDir":"dist/",
+       "baseUrl":"src/",
+       "listFiles":false,
+       "noEmitHelpers":true,
+       "strict": true
+    },
+    "include":[ 
+       "src/**/*"
+    ],
+    "exclude":[ 
+       "node_modules"
+    ],
+    "compileOnSave":false
+  }
+  

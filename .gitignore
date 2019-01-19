@@ -1,0 +1,14 @@
+/node_modules
+
+/coverage
+
+/dist
+
+/.vscode
+
+.env
+secrets.json
+secrets-test.json
+
+yarn.lock
+yarn-error.log
