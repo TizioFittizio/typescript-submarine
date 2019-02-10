@@ -3,6 +3,7 @@
 FROM node:alpine
 WORKDIR "/app"
 COPY ./tsconfig.json ./
+COPY ./jest.config.js ./
 COPY ./package.json ./
 RUN yarn install --no-lockfile
 CMD ["yarn", "dev"]

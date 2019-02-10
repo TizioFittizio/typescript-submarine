@@ -2,19 +2,21 @@ export interface UserValues {
     name: string;
     surname: string;
     gender: 'male' | 'fermale';
-    score: number;
 }
 
 export abstract class User {
 
     protected _values: UserValues;
 
+    private _score: number;
+
     constructor(values: UserValues) {
         this._values = values;
+        this._score = 0;
     }
 
     public incrementScore(){
-        this._values.score ++;
+        this._score ++;
     }
 
     public abstract save(): Promise<void>;
@@ -32,7 +34,7 @@ export abstract class User {
     }
 
     public get score(){
-        return this._values.score;
+        return this._score;
     }
 
 }
