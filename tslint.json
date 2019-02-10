@@ -27,12 +27,12 @@
             "check-type",
             "check-typecast",
             "check-type-operator",
-            "check-preblock",
             "check-postbrace"
         ],
         "curly": false,
         "max-union-size": false,
-        "interface-name": false
+        "interface-name": false,
+        "variable-name": false
     },
     "rulesDirectory": []
 }
