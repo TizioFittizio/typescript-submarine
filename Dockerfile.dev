@@ -4,5 +4,5 @@ FROM node:alpine
 WORKDIR "/app"
 COPY ./tsconfig.json ./
 COPY ./package.json ./
-RUN yarn install
-CMD ["yarn", "start"]
+RUN yarn install --no-lockfile
+CMD ["yarn", "dev"]

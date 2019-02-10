@@ -9,13 +9,15 @@
   "scripts": {
     "clean": "node ./node_modules/rimraf/bin.js dist",
     "build": "npm run clean && node ./node_modules/typescript/bin/tsc",
-    "start": "npm run build && node ./dist/index.js"
+    "start": "npm run build && node ./dist/index.js",
+    "dev": "ts-node-dev --respawn --poll  --all-deps ./src/index.ts"
   },
   "dependencies": {},
   "devDependencies": {
     "@types/node": "^10.12.15",
     "rimraf": "^2.6.3",
     "ts-node": "^7.0.1",
+    "ts-node-dev": "^1.0.0-pre.32",
     "tslint": "^5.11.0",
     "tslint-sonarts": "^1.8.0",
     "typescript": "^3.2.2"

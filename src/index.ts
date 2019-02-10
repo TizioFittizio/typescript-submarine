@@ -1,7 +1,7 @@
 export class Main {
 
     public static async main() {
-        console.log('Cose!');
+        console.log('Test');
     }
 
 }
