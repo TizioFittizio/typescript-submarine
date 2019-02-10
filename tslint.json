@@ -26,12 +26,11 @@
             "check-rest-spread",
             "check-type",
             "check-typecast",
-            "check-type-operator"
+            "check-type-operator",
+            "check-preblock",
+            "check-postbrace"
         ],
-        "no-commented-code": false,
         "curly": false,
-        "variable-name": false,
-        "max-line-length": false,
         "max-union-size": false,
         "interface-name": false
     },

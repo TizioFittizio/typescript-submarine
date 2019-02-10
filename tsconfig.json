@@ -1,5 +1,5 @@
 { 
-    "compilerOptions":{ 
+    "compilerOptions": { 
        "target":"esnext",
        "moduleResolution":"node",
        "module":"commonjs",
@@ -9,11 +9,11 @@
        "experimentalDecorators":true,
        "sourceMap":true,
        "pretty":true,
-       "allowUnreachableCode":false,
+       "allowUnreachableCode":true,
        "allowUnusedLabels":true,
        "noImplicitAny":true,
        "noImplicitReturns":true,
-       "noImplicitUseStrict":false,
+       "alwaysStrict":true,
        "outDir":"dist/",
        "baseUrl":"src/",
        "listFiles":false,
@@ -27,5 +27,5 @@
        "node_modules"
     ],
     "compileOnSave":false
-  }
+}
   
