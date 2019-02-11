@@ -9,6 +9,8 @@
 .env
 secrets.json
 secrets-test.json
+config.json
+config-test.json
 
 yarn.lock
 yarn-error.log
