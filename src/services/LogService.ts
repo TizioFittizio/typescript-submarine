@@ -16,7 +16,7 @@ export class LogService implements ILogService {
         const logMessage = `[${logLevelChar}] ${callerName} - ${message}`;
         if (logLevel <= LogLevel.INFO) console.log(logMessage);
         else if (logLevel <= LogLevel.WARN) console.warn(logMessage);
-        else if (logLevel <= LogLevel.FATAL) console.error(logMessage);
+        else console.error(logMessage);
     }
 
 }
