@@ -1,4 +1,4 @@
-import { User } from '../../models/User';
+import { User } from '../../models/interfaces/User';
 
 class TestUser extends User {
 
