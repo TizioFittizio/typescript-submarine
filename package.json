@@ -13,7 +13,9 @@
     "dev": "ts-node-dev --respawn --poll  --all-deps ./src/index.ts",
     "test": "jest --watchAll"
   },
-  "dependencies": {},
+  "dependencies": {
+
+  },
   "devDependencies": {
     "@types/jest": "^24.0.0",
     "@types/node": "^10.12.15",
