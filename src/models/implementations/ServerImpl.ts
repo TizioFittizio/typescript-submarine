@@ -6,17 +6,20 @@ import {
 import { IOC } from '../../services';
 import { LogLevel } from '../../config/Enums';
 import { Server } from '../../models/interfaces/Server';
+import { Constants } from '../../config/Constants';
 
-const { logService } = IOC.instance;
+const { logService, configService } = IOC.instance;
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const compress = require('compression');
 const methodOverride = require('method-override');
-const rootDir = __dirname;
+const rootDir = __dirname.split('src')[0] + 'src';
 
 @ServerSettings({
     rootDir,
-    acceptMimes: ['application/json']
+    acceptMimes: ['application/json'],
+    httpPort: configService.getNumber(Constants.SECRET_KEY_SERVER_PORT)!,
+    httpsPort: configService.getNumber(Constants.SECRET_KEY_SERVER_PORT)!
 })
 export class ServerImpl extends ServerLoader implements Server {
 

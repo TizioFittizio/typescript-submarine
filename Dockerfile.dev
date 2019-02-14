@@ -1,5 +1,6 @@
 # This Dockerfile its used for development, don't release a production image with this
 # You must mount a docker volume to src in order to run the image: docker run -v $(pwd)/src:/app/src <image>
+# You should expose the server port too
 FROM node:alpine
 WORKDIR "/app"
 COPY ./package.json ./
