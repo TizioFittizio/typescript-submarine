@@ -2,14 +2,28 @@ import {
     Controller,
     Get
 } from '@tsed/common';
-import { User } from '../models/interfaces/User';
+import { UserDTO } from 'models/dtos/UserDTO';
+import { Constants } from 'config/Constants';
 
-@Controller('/users')
+@Controller(Constants.CONTROLLER_USERS)
 export class UserController {
 
-    @Get('/')
-    private async getUsers(): Promise<User[]> {
-      return [];
+    @Get(Constants.ROUTE_USERS_GET)
+    private async getUsers(): Promise<UserDTO[]> {
+        return [
+            {
+                name: '1',
+                surname: '2',
+                gender: 'male',
+                score: 13
+            },
+            {
+                name: '3',
+                surname: '4',
+                gender: 'female',
+                score: 17
+            }
+        ];
     }
 
     // TODO

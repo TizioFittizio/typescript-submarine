@@ -1,5 +1,5 @@
 import { IOC } from './services';
-import { ServerImpl } from './models/implementations/ServerImpl';
+import { ServerImp } from './models/implementations/ServerImp';
 
 const { configService } = IOC.instance;
 
@@ -15,7 +15,7 @@ export class Main {
     }
 
     private static startServer(){
-        new ServerImpl().start();
+        new ServerImp().start();
     }
 
 }

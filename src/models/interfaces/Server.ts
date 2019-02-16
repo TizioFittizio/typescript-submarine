@@ -1,3 +1,5 @@
 export interface Server {
-    start: (port: number) => void;
+    start: () => void;
+    stop: () => Promise<void>;
+    getApp: () => any;
 }

@@ -5,10 +5,10 @@ import {
 } from '@tsed/common';
 import { IOC } from '../../services';
 import { LogLevel } from '../../config/Enums';
-import { Server } from '../../models/interfaces/Server';
+import { Server } from '../interfaces/Server';
 import { Constants } from '../../config/Constants';
 
-const { logService, configService } = IOC.instance;
+const { logService } = IOC.instance;
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const compress = require('compression');
@@ -18,12 +18,10 @@ const rootDir = __dirname.split('src')[0] + 'src';
 @ServerSettings({
     rootDir,
     acceptMimes: ['application/json'],
-    httpPort: configService.getNumber(Constants.SECRET_KEY_SERVER_PORT)!,
-    httpsPort: configService.getNumber(Constants.SECRET_KEY_SERVER_PORT)!
+    httpPort: Constants.EXPRESS_HTTP_PORT,
+    httpsPort: Constants.EXPRESS_HTTPS_PORT
 })
-export class ServerImpl extends ServerLoader implements Server {
-
-    private static readonly ROOT_DIR = __dirname;
+export class ServerImp extends ServerLoader implements Server {
 
     public $onMountingMiddlewares(): void | Promise<any> {
         this
@@ -43,6 +41,14 @@ export class ServerImpl extends ServerLoader implements Server {
 
     public $onServerInitError(err: any){
         logService.log('Server', LogLevel.ERROR, JSON.stringify(err));
+    }
+
+    public getApp(){
+        return this.expressApp;
+    }
+
+    public async stop(){
+        // Not needed
     }
 
 }

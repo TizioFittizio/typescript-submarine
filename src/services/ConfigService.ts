@@ -1,11 +1,11 @@
 import { IConfigService } from './interfaces';
-import { Constats } from '../config/Constants';
+import { Constants } from '../config/Constants';
 
 export class ConfigService implements IConfigService {
 
     public loadConfiguration(): void {
         try {
-            const file = require(Constats.CONFIG_FILE_PATH);
+            const file = require(Constants.CONFIG_FILE_PATH);
             Object.keys(file).forEach(key => process.env[key] = file[key]);
         }
         catch (e){
