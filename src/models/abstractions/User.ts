@@ -1,7 +1,7 @@
 export interface UserValues {
     name: string;
     surname: string;
-    gender: 'male' | 'fermale';
+    gender: 'male' | 'female';
 }
 
 export abstract class User {
