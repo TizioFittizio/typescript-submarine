@@ -20,3 +20,10 @@ export class WrongCredentialsError extends Error {
         super(message);
     }
 }
+
+export class NotFoundError extends Error {
+    public readonly status = 404;
+    constructor(message: string){
+        super(message);
+    }
+}

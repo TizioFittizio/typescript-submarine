@@ -14,9 +14,11 @@
     "test": "jest --runInBand --watch"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "simple-express-ts": "^1.2.0"
   },
   "devDependencies": {
+    "@types/body-parser": "^1.17.0",
     "@types/jest": "^24.0.0",
     "@types/node": "^10.12.15",
     "@types/supertest": "^2.0.7",
