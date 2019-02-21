@@ -11,7 +11,7 @@
     "build": "npm run clean && node ./node_modules/typescript/bin/tsc",
     "start": "npm run build && node ./dist/index.js",
     "dev": "ts-node-dev --respawn --poll  --all-deps ./src/index.ts",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll --runInBand"
   },
   "dependencies": {
     "simple-express-ts": "^1.2.0"
@@ -19,8 +19,10 @@
   "devDependencies": {
     "@types/jest": "^24.0.0",
     "@types/node": "^10.12.15",
+    "@types/supertest": "^2.0.7",
     "jest": "^23.6.0",
     "rimraf": "^2.6.3",
+    "supertest": "^3.4.2",
     "ts-jest": "^23.10.5",
     "ts-node": "^7.0.1",
     "ts-node-dev": "^1.0.0-pre.32",

@@ -1,7 +1,6 @@
-import { UsersController } from './controllers/UsersController';
+import { ServerImp } from './models/implementations/ServerImp';
 import { Constants } from './config/Constants';
 import { IOC } from './services';
-import { ExpressServer } from 'simple-express-ts';
 
 const { configService } = IOC.instance;
 
@@ -17,9 +16,7 @@ export class Main {
     }
 
     private static async startServer(){
-        const server = new ExpressServer.Builder(Constants.SERVER_PORT)
-            .setControllers(UsersController)
-            .build();
+        const server = new ServerImp(Constants.SERVER_PORT);
         await server.start();
     }
 
