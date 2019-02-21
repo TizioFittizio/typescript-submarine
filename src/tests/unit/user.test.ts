@@ -1,4 +1,4 @@
-import { User } from '../../models/interfaces/User';
+import { User } from '../../models/abstractions/User';
 
 class TestUser extends User {
 
@@ -10,7 +10,7 @@ class TestUser extends User {
 
 const createTestUser = () => new TestUser({
     name: 'Luca',
-    surname: 'MacKanzie',
+    surname: 'MacKenzie',
     gender: 'male'
 });
 
@@ -24,7 +24,7 @@ describe('When created', () => {
 
     it('should have correct values', () => {
         expect(user.name).toBe('Luca');
-        expect(user.surname).toBe('MacKanzie');
+        expect(user.surname).toBe('MacKenzie');
         expect(user.gender).toBe('male');
     });
 
