@@ -1,30 +1,39 @@
-import { Constants } from './../config/Constants';
+import { HostLoader } from './../models/abstractions/HostLoader';
 import { IDbService } from './interfaces/IDbService';
-import { ILogService, IConfigService } from './interfaces';
+import { ILogService } from './interfaces';
 import * as mongoose from 'mongoose';
+import { LogLevel } from '../config/Enums';
 
-export class DbService implements IDbService {
+export class MongoDbService implements IDbService {
+
+    private static readonly MONGOOSE_OPTIONS = {
+        useNewUrlParser: true,
+        userCreateIndex: true
+    };
 
     private logService: ILogService;
-    private configService: IConfigService;
+    private hostLoader: HostLoader;
 
-    constructor(logService: ILogService, configService: IConfigService){
+    constructor(logService: ILogService, hostLoader: HostLoader){
         this.logService = logService;
-        this.configService = configService;
+        this.hostLoader = hostLoader;
         (mongoose as any).Promise = global.Promise;
     }
 
-    public connect(): Promise<void> {
-        throw new Error('Method not implemented.');
+    public async connect() {
+        const mongoHost = this.hostLoader.getHost();
+        await new Promise<void>((resolve, reject) => {
+            mongoose.connect(mongoHost, MongoDbService.MONGOOSE_OPTIONS)
+            .then(() => {
+                this.logService.log('DbService', LogLevel.INFO, 'Db connected');
+                resolve();
+            })
+            .catch(reject);
+        });
     }
 
     public disconnect(): Promise<void> {
         throw new Error('Method not implemented.');
-    }
-
-    private getMongoHost(){
-        const mongoHost = this.configService.getString(Constants.CONFIG_KEY_MONGO_HOST);
-        // TODO
     }
 
 }
