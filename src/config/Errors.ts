@@ -27,3 +27,10 @@ export class NotFoundError extends Error {
         super(message);
     }
 }
+
+export class NotImplementedError extends Error {
+    public readonly status = 501;
+    constructor(message: string){
+        super(message);
+    }
+}
