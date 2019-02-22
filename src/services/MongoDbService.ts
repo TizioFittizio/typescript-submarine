@@ -1,4 +1,4 @@
-import { HostLoader } from './../models/abstractions/HostLoader';
+import { HostLoader } from '../models/abstractions/HostLoader';
 import { IDbService } from './interfaces/IDbService';
 import { ILogService } from './interfaces';
 import * as mongoose from 'mongoose';
@@ -32,8 +32,8 @@ export class MongoDbService implements IDbService {
         });
     }
 
-    public disconnect(): Promise<void> {
-        throw new Error('Method not implemented.');
+    public async disconnect(): Promise<void> {
+        await mongoose.disconnect();
     }
 
 }
