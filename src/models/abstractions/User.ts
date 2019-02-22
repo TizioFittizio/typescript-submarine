@@ -10,7 +10,7 @@ export abstract class User {
 
     protected _values: UserValues;
 
-    constructor(values: UserValues) {
+    protected constructor(values: UserValues) {
         this._values = values;
         this._values.score = 0;
     }
