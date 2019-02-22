@@ -24,8 +24,7 @@ export class WinstonLogService implements ILogService {
                 format.errors({ stack: true }),
                 format.splat(),
                 format.json(),
-                format.colorize(),
-                format.simple()
+                format.prettyPrint()
             ),
             defaultMeta: { service: 'submarine' },
             transports: [
