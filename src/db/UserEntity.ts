@@ -25,6 +25,9 @@ const schema: Schema = new Schema({
     gender: {
         type: String,
         enum: ['male', 'fermale']
+    },
+    score: {
+        type: Number
     }
 });
 

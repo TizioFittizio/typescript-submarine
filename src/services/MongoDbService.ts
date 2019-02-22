@@ -8,7 +8,7 @@ export class MongoDbService implements IDbService {
 
     private static readonly MONGOOSE_OPTIONS = {
         useNewUrlParser: true,
-        userCreateIndex: true
+        useCreateIndex: true
     };
 
     private logService: ILogService;

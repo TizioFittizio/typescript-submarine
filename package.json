@@ -11,7 +11,7 @@
     "build": "npm run clean && node ./node_modules/typescript/bin/tsc",
     "start": "npm run build && node ./dist/index.js",
     "dev": "ts-node-dev --respawn --poll  --all-deps ./src/index.ts",
-    "test": "jest --watchAll"
+    "test": "jest --runInBand"
   },
   "dependencies": {
     "@types/mongoose": "^5.3.18",

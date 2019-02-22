@@ -21,6 +21,10 @@ export abstract class User {
 
     public abstract save(): Promise<void>;
 
+    public get id(){
+        return this._values.id;
+    }
+
     public get name(){
         return this._values.name;
     }
