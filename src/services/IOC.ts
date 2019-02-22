@@ -1,6 +1,6 @@
+import { WinstonLogService } from './WinstonLogService';
 import { IConfigService, ILogService } from './interfaces';
 import { ConfigService } from '.';
-import { LogService } from './LogService';
 
 export class IOC {
 
@@ -11,7 +11,7 @@ export class IOC {
 
     private constructor(){
         this._configService = new ConfigService();
-        this._logService = new LogService();
+        this._logService = new WinstonLogService();
     }
 
     public static get instance(){
