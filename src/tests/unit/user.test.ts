@@ -16,7 +16,8 @@ class TestUser extends User {
 const createTestUser = () => TestUser.create({
     name: 'Luca',
     surname: 'MacKenzie',
-    gender: 'male'
+    gender: 'male',
+    id: 5
 });
 
 describe('When created', () => {
@@ -31,6 +32,7 @@ describe('When created', () => {
         expect(user.name).toBe('Luca');
         expect(user.surname).toBe('MacKenzie');
         expect(user.gender).toBe('male');
+        expect(user.id).toBe(5);
     });
 
     it('should have an initial score of 0', () => {
