@@ -1,0 +1,112 @@
+version: 2
+jobs:
+
+  test:
+    working_directory: ~/repo
+    docker:
+    - image: circleci/node:11.4.0
+    steps:
+    - checkout
+    - restore_cache:
+        key: dependency-cache-{{ checksum "package.json" }}
+    - run:
+        name: Dependencies install
+        command: yarn install
+    - save_cache:
+        key: dependency-cache-{{ checksum "package.json" }}
+        paths:
+        - node_modules
+    - run:
+        name: Test
+        command: yarn test
+
+  pushImage:
+    working_directory: ~/repo
+    docker:
+    - image: circleci/node:11.4.0
+    steps:
+    - checkout
+    - restore_cache:
+        key: dependency-cache-{{ checksum "package.json" }}
+    - run:
+        name: Dependencies install
+        command: yarn install
+    - save_cache:
+        key: dependency-cache-{{ checksum "package.json" }}
+        paths:
+        - node_modules
+    - run:
+        name: Build
+        command: yarn build
+    - run:
+        name: Setup image name
+        command: |
+          echo 'export IMAGE_NAME=submarine' >> $BASH_ENV
+    - setup_remote_docker:
+        docker_layer_caching: true
+    - run:
+        name: Docker login
+        command: |
+          docker login $REGISTRY_NAME -u $DOCKER_USER -p $DOCKER_PASS
+    - run:
+        name: Build and push version image
+        command: |
+          docker build -t $REGISTRY_NAME/$IMAGE_NAME:0.0.$CIRCLE_BUILD_NUM .
+          docker push $REGISTRY_NAME/$IMAGE_NAME:0.0.$CIRCLE_BUILD_NUM
+    - run:
+        name: Build and push latest image
+        command: |
+          docker build -t $REGISTRY_NAME/$IMAGE_NAME:latest .
+          docker push $REGISTRY_NAME/$IMAGE_NAME:latest
+
+  deployImage:
+    working_directory: ~/repo
+    docker:
+    - image: microsoft/azure-cli:latest
+    steps:
+    - checkout
+    - run:
+        name: Setup image name
+        command: |
+          echo 'export IMAGE_NAME=submarine' >> $BASH_ENV
+    - run: 
+        name: Azure login
+        command: az login --service-principal -u $AZURE_SERVICE_PRINCIPAL_USER --password $AZURE_SERVICE_PRINCIPAL_PASS --tenant $AZURE_SERVICE_PRINCIPAL_TENANT
+    - run: 
+        name: Azure install kubectl
+        command: az aks install-cli
+    - run: 
+        name: Azure get credentials
+        command: az aks get-credentials --resource-group $AZURE_RESOURCE_GROUP --name $AZURE_CLUSTER_NAME
+    - run:
+        name: Update image
+        command: kubectl set image deployment/synchronizer-deployment synchronizer=$REGISTRY_NAME/$IMAGE_NAME:latest
+    - run:
+        name: Trigger update image
+        command: kubectl set image deployment/synchronizer-deployment synchronizer=$REGISTRY_NAME/$IMAGE_NAME
+    
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+    - test:
+    - pushImage:
+        requires:
+          - test
+        filters:
+          branches:
+            only:
+            - dev
+            - /release.*/
+    - deployImage:
+        context: TODO
+        requires:
+          - test
+          - pushImage
+        filters:
+          branches:
+            only:
+            - /hotfix.*/
+            - master
+        
