@@ -1,6 +1,11 @@
+import { UserValues } from './../../models/abstractions/User';
 import { User } from '../../models/abstractions/User';
 
 class TestUser extends User {
+
+    public static create(values: UserValues){
+        return new TestUser(values);
+    }
 
     public async save(): Promise<void> {
         return void 0;
@@ -8,10 +13,11 @@ class TestUser extends User {
 
 }
 
-const createTestUser = () => new TestUser({
+const createTestUser = () => TestUser.create({
     name: 'Luca',
     surname: 'MacKenzie',
-    gender: 'male'
+    gender: 'male',
+    id: 5
 });
 
 describe('When created', () => {
@@ -26,6 +32,7 @@ describe('When created', () => {
         expect(user.name).toBe('Luca');
         expect(user.surname).toBe('MacKenzie');
         expect(user.gender).toBe('male');
+        expect(user.id).toBe(5);
     });
 
     it('should have an initial score of 0', () => {
