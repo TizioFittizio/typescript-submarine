@@ -19,15 +19,13 @@ export class AzureBlobService implements IBlobService {
     }
 
     public async init(): Promise<void> {
-        const connectionsString = this.configService.getString(Constants.CONFIG_KEY_AZURE_STORAGE_CONNECTION_STRING);
-        if (!connectionsString){
-            throw new NotInitializedError('Azure storage connection string is missing');
-        }
-        this.blobService = azureStorage.createBlobService(connectionsString);
+        const connectionString = this.getConnectionString();
+        this.blobService = azureStorage.createBlobService(connectionString);
         await new Promise((resolve, reject) => {
             this.blobService!.createContainerIfNotExists(
                 Constants.STORAGE_CONTAINER_NAME,
-                (error, result, response) => {
+                { publicAccessLevel: 'blob' },
+                error => {
                     if (error) reject(error);
                     else resolve();
                 }
@@ -37,17 +35,30 @@ export class AzureBlobService implements IBlobService {
 
     public async uploadFile(file: any, filename: string): Promise<string> {
         this.ensureInitialization();
-        this.blobService!.createBlockBlobFromLocalFile(
-            Constants.STORAGE_CONTAINER_NAME,
-            filename,
-            file,
-            (error, result, response) => {
-                console.log('Error', error);
-                console.log('Result', result);
-                console.log('Response', response);
-            }
-        );
-        return '';
+        return await new Promise<string>((resolve, reject) => {
+            this.blobService!.createBlockBlobFromLocalFile(
+                Constants.STORAGE_CONTAINER_NAME,
+                filename,
+                file,
+                error => {
+                    if (error) reject(error);
+                    else resolve(this.getUploadedFileUrl(filename));
+                }
+            );
+        });
+    }
+
+    private getConnectionString(){
+        const connectionsString = this.configService.getString(Constants.CONFIG_KEY_AZURE_STORAGE_CONNECTION_STRING);
+        if (!connectionsString) throw new NotInitializedError('Azure storage connection string is missing');
+        return connectionsString;
+    }
+
+    private getUploadedFileUrl = (filename: string) => {
+        const connectionString = this.getConnectionString();
+        const [ protocol, accountName, accountKey, suffix ] =
+            connectionString.split(';').map(x => x.split('=')[1]);
+        return `${protocol}://${accountName}.blob.${suffix}/${Constants.STORAGE_CONTAINER_NAME}/${filename}`;
     }
 
     private ensureInitialization(){
