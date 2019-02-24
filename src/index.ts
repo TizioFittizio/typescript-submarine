@@ -1,15 +1,17 @@
 import { IOC } from './services';
 
-const { configService } = IOC.instance;
+const { configService, blobService } = IOC.instance;
 
 export class Main {
 
     public static async main() {
-        this.initServices();
+        await this.initServices();
+        blobService.uploadFile('Dockerfile', 'sda');
     }
 
-    private static initServices(){
+    private static async initServices(){
         configService.loadConfiguration();
+        await blobService.init();
     }
 
 }

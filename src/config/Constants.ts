@@ -1,3 +1,5 @@
 export const Constants = {
-    CONFIG_FILE_PATH: '../../config.json'
+    CONFIG_FILE_PATH: '../../config.json',
+    CONFIG_KEY_AZURE_STORAGE_CONNECTION_STRING: 'AZURE_STORAGE_CONNECTION_STRING',
+    STORAGE_CONTAINER_NAME: 'submarine'
 };

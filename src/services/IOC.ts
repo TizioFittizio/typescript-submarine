@@ -1,6 +1,8 @@
+import { AzureBlobService } from './AzureBlobService';
 import { IConfigService, ILogService } from './interfaces';
 import { ConfigService } from '.';
 import { LogService } from './LogService';
+import { IBlobService } from './interfaces/IBlobService';
 
 export class IOC {
 
@@ -8,10 +10,12 @@ export class IOC {
 
     private _configService: IConfigService;
     private _logService: ILogService;
+    private _blobService: IBlobService;
 
     private constructor(){
         this._configService = new ConfigService();
         this._logService = new LogService();
+        this._blobService = new AzureBlobService(this.logService, this.configService);
     }
 
     public static get instance(){
@@ -25,6 +29,10 @@ export class IOC {
 
     public get logService(){
         return this._logService;
+    }
+
+    public get blobService(){
+        return this._blobService;
     }
 
 }
