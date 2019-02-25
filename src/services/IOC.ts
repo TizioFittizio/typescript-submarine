@@ -1,7 +1,7 @@
 import { IConfigService, ILogService, IDbService } from './interfaces';
 import { LogService, ConfigService, MongoDbService } from '.';
 import { isTestEnvironment } from '../helpers/isTestEnvironment';
-import { HostLoaderMock, HostLoaderImp } from '../models';
+import { HostLoaderTest, HostLoaderImp } from '../models';
 
 export class IOC {
 
@@ -35,7 +35,7 @@ export class IOC {
     }
 
     private get hostLoader(){
-        return isTestEnvironment() ? new HostLoaderMock() : new HostLoaderImp(this.configService);
+        return isTestEnvironment() ? new HostLoaderTest(this.configService) : new HostLoaderImp(this.configService);
     }
 
 }

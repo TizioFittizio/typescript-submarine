@@ -3,7 +3,7 @@ import { UserCreator } from './../../models/implementations/UserCreator';
 import { UserValues } from './../../models/abstractions/User';
 import { IOC } from '../../services';
 
-const { dbService } = IOC.instance;
+const { configService, dbService } = IOC.instance;
 
 const dummyValues: UserValues = {
     name: 'AAA',
@@ -12,6 +12,7 @@ const dummyValues: UserValues = {
 };
 
 beforeAll(async () => {
+    configService.loadConfiguration();
     await dbService.connect();
 });
 
