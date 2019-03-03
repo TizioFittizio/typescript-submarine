@@ -1,6 +1,8 @@
 import { IConfigService, ILogService } from './interfaces';
 import { ConfigService } from '.';
 import { LogService } from './LogService';
+import { IQueueService } from './interfaces/IQueueService';
+import { AzureServiceBusQueueService } from './AzureServiceBusQueueService';
 
 export class IOC {
 
@@ -8,10 +10,12 @@ export class IOC {
 
     private _configService: IConfigService;
     private _logService: ILogService;
+    private _queueService: IQueueService;
 
     private constructor(){
         this._configService = new ConfigService();
         this._logService = new LogService();
+        this._queueService = new AzureServiceBusQueueService(this.logService, this.configService);
     }
 
     public static get instance(){
@@ -25,6 +29,10 @@ export class IOC {
 
     public get logService(){
         return this._logService;
+    }
+
+    public get queueService(){
+        return this._queueService;
     }
 
 }

@@ -1,3 +1,6 @@
 export const Constants = {
-    CONFIG_FILE_PATH: '../../config.json'
+    CONFIG_FILE_PATH: '../../config.json',
+    CONFIG_KEY_AZURE_SERVICE_BUS_CONNECTION_STRING: 'AZURE_SERVICE_BUS_CONNECTION_STRING',
+
+    AZURE_SERVICE_BUS_QUEUE_NAME: 'submarine'
 };
