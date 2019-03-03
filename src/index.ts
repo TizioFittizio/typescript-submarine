@@ -1,6 +1,6 @@
 import { IOC } from './services';
 
-const { configService } = IOC.instance;
+const { configService, queueService } = IOC.instance;
 
 export class Main {
 
@@ -10,6 +10,7 @@ export class Main {
 
     private static initServices(){
         configService.loadConfiguration();
+        queueService.init();
     }
 
 }
