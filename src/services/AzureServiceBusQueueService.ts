@@ -71,7 +71,7 @@ export class AzureServiceBusQueueService implements IQueueService {
     }
 
     private ensureStarted(){
-        if (!this.started) throw new NotInitializedError('Queue service jasn\'t be started');
+        if (!this.started) throw new NotInitializedError('Queue service hasn\'t be started');
     }
 
 }
