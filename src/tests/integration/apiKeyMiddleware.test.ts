@@ -2,7 +2,10 @@ import { Constants } from './../../config/Constants';
 import { apiKeyMiddleware } from './../../middlewares/apiKeyMiddleware';
 import { ExpressController, Get, Middleware, ExpressServer } from 'simple-express-ts';
 import { Request, Response } from 'express';
-import * as request from 'supertest';
+
+const request = require('supertest');
+
+// tslint:disable:no-identical-functions
 
 class TestController extends ExpressController {
 

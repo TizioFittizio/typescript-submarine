@@ -18,7 +18,8 @@
        "baseUrl":"src/",
        "listFiles":false,
        "noEmitHelpers":false,
-       "strict": true
+       "strict": true,
+       "esModuleInterop": true
     },
     "include":[ 
        "src/**/*"

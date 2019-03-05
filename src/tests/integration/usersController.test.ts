@@ -1,6 +1,8 @@
 import { Constants } from './../../config/Constants';
 import { ServerImp } from './../../models/implementations/ServerImp';
-import * as request from 'supertest';
+import { Response } from 'supertest';
+
+const request = require('supertest');
 
 let server: ServerImp;
 const apiKey = '1';
@@ -21,7 +23,7 @@ describe('GET /users', () => {
         request(server.getApp())
             .get('/users')
             .set(Constants.HEADER_API_KEY, apiKey)
-            .expect(res => {
+            .expect((res: Response) => {
                 expect(Array.isArray(res.body)).toBeTruthy();
             })
             .expect(200)
@@ -36,7 +38,7 @@ describe('GET /users/:id', () => {
         request(server.getApp())
             .get('/users/10')
             .set(Constants.HEADER_API_KEY, apiKey)
-            .expect(res => {
+            .expect((res: Response) => {
                 expect(res.body.id).toBe('10');
             })
             .expect(200)
