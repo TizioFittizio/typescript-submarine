@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
 
   test:
@@ -39,9 +39,13 @@ jobs:
         name: Build
         command: yarn build
     - run:
-        name: Setup image name
+        name: Setup branch name
         command: |
-          echo 'export IMAGE_NAME=submarine' >> $BASH_ENV
+          echo export BRANCH_NAME=${CIRCLE_BRANCH} | tr / - >> $BASH_ENV
+    # - run:
+    #     name: Setup image name
+    #     command: |
+    #       echo 'export IMAGE_NAME=submarine' >> $BASH_ENV
     - setup_remote_docker:
         docker_layer_caching: true
     - run:
@@ -51,24 +55,41 @@ jobs:
     - run:
         name: Build and push version image
         command: |
-          docker build -t $REGISTRY_NAME/$IMAGE_NAME:$CIRCLE_BUILD_NUM .
-          docker push $REGISTRY_NAME/$IMAGE_NAME:$CIRCLE_BUILD_NUM
+          docker build -t $REGISTRY_NAME/$CIRCLE_PROJECT_REPONAME:$BRANCH_NAME.$CIRCLE_BUILD_NUM .
+          docker push $REGISTRY_NAME/$CIRCLE_PROJECT_REPONAME:$BRANCH_NAME.$CIRCLE_BUILD_NUM
     - run:
         name: Build and push latest image
         command: |
-          docker build -t $REGISTRY_NAME/$IMAGE_NAME:latest .
-          docker push $REGISTRY_NAME/$IMAGE_NAME:latest
+          docker build -t $REGISTRY_NAME/$CIRCLE_PROJECT_REPONAME:latest .
+          docker push $REGISTRY_NAME/$CIRCLE_PROJECT_REPONAME:latest
+    - run:
+        name: Create folder workspace
+        command: |
+          mkdir -p workspace
+    - run:
+        name: Save image name
+        command: |
+          echo $REGISTRY_NAME/$CIRCLE_PROJECT_REPONAME:$BRANCH_NAME.$CIRCLE_BUILD_NUM > workspace/image-name
+    - persist_to_workspace:
+        root: workspace
+        paths:
+            - image-name
 
   deployImage:
     working_directory: ~/repo
     docker:
     - image: microsoft/azure-cli:latest
     steps:
-    - checkout
+    - attach_workspace:
+        at: /repo/workspace
     - run:
         name: Setup image name
         command: |
           echo 'export IMAGE_NAME=submarine' >> $BASH_ENV
+    - run:
+        name: Load image name
+        command: |
+          echo export IMAGE_NAME=$(cat /repo/workspace/image-name) >> $BASH_ENV
     - run: 
         name: Azure login
         command: az login --service-principal -u $AZURE_SERVICE_PRINCIPAL_USER --password $AZURE_SERVICE_PRINCIPAL_PASS --tenant $AZURE_SERVICE_PRINCIPAL_TENANT
@@ -80,10 +101,7 @@ jobs:
         command: az aks get-credentials --resource-group $AZURE_RESOURCE_GROUP --name $AZURE_CLUSTER_NAME
     - run:
         name: Update image
-        command: kubectl set image deployment/synchronizer-deployment synchronizer=$REGISTRY_NAME/$IMAGE_NAME:latest
-    - run:
-        name: Trigger update image
-        command: kubectl set image deployment/synchronizer-deployment synchronizer=$REGISTRY_NAME/$IMAGE_NAME
+        command: kubectl set image deployment/TODO TODO=$IMAGE_NAME
     
 
 workflows:
@@ -99,6 +117,8 @@ workflows:
             only:
             - dev
             - /release.*/
+            - master
+            - /hotfix.*/
     - deployImage:
         context: TODO
         requires:
@@ -107,6 +127,5 @@ workflows:
         filters:
           branches:
             only:
-            - /hotfix.*/
             - master
-        
+            - /hotfix.*/
