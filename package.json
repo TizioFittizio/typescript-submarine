@@ -14,9 +14,10 @@
     "test": "jest --watchAll"
   },
   "dependencies": {
-
+    "http-proxy": "^1.17.0"
   },
   "devDependencies": {
+    "@types/http-proxy": "^1.17.0",
     "@types/jest": "^24.0.0",
     "@types/node": "^10.12.15",
     "jest": "^23.6.0",
