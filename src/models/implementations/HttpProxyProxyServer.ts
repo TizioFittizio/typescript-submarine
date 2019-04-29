@@ -20,7 +20,10 @@ export class HttpProxyProxyServer implements ProxyServer {
     constructor(port: number){
         this.port = port;
         this.proxyRules = [];
-        this.httpProxy = httpProxy.createProxyServer();
+        this.httpProxy = httpProxy.createProxyServer({
+            secure: false, // To enable on production
+            changeOrigin: true 
+        });
         this.httpServer = null;
     }
 
@@ -33,7 +36,9 @@ export class HttpProxyProxyServer implements ProxyServer {
                         this.httpProxy.web(req, res, {
                             target: proxyRule.hostTarget,
                             timeout: Constants.PROXY_TIMEOUT,
-                            proxyTimeout: Constants.PROXY_TIMEOUT
+                            proxyTimeout: Constants.PROXY_TIMEOUT,
+                            hostRewrite: '/',
+                            autoRewrite: true
                         });
                         return;
                     }

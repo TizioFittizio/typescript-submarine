@@ -100,7 +100,7 @@ describe('When using middlewares', () => {
     });
 
     it('should execute middleware that stop requests correctly', async () => {
-        await expect(axios.get('http://localhost:30000/$$$')).rejects.toThrow();
+        await expect(axios.get('http://localhost:30000/$')).rejects.toThrow();
     });
 
 });
