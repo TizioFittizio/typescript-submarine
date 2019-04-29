@@ -1,5 +1,5 @@
 export interface ProxyServer {
-    start(): Promise<void>;
+    start(port: number): Promise<void>;
     stop(): Promise<void>;
-    addProxy(proxyRule: string, target: string, ...middlewares: Array<() => void>): ProxyServer;
+    addProxyRule(urlRule: RegExp, hostTarget: string, ...middlewares: Array<(req: any, res: any) => void>): ProxyServer;
 }
