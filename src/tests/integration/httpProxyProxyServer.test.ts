@@ -7,12 +7,18 @@ import axios from 'axios';
 axios.defaults.adapter = require('axios/lib/adapters/http');
 
 const createServer = (port: number, message?: string) => {
-    return http.createServer((req, res) => {
+    const server = http.createServer((req, res) => {
         if (req.url === '/customHeader/route') res.write(req.headers['x-custom-header']);
         else res.write(message || req.url);
         res.end();
-    }).listen(port);
+    });
+    server.listen(port);
+    return server;
 };
+
+const wait = async (time: number) => new Promise(resolve => {
+    setTimeout(resolve, time);
+});
 
 describe('With a proxy server with no rules', () => {
 
@@ -25,6 +31,7 @@ describe('With a proxy server with no rules', () => {
 
     afterAll(async () => {
         await proxyServer.stop();
+        await wait(500);
     });
 
     it('should throw when no proxy rule are matched', async () => {
@@ -49,9 +56,13 @@ describe('When using proxy rules', () => {
     });
 
     afterAll(async () => {
+        await new Promise(resolve => {
+            rule1Server.close(() => {
+                rule2Server.close(resolve);
+            });
+        });
         await proxyServer.stop();
-        await new Promise(resolve => rule1Server.close(resolve));
-        await new Promise(resolve => rule2Server.close(resolve));
+        await wait(500);
     });
 
     it('should execute a proxy rule correctly', async () => {
@@ -87,6 +98,14 @@ describe('When using middlewares', () => {
         proxyServer.addProxyRule(/^\/.*/, 'http://localhost:30001', middleware1, middleware2);
         rule1Server = createServer(30001);
         await proxyServer.start();
+    });
+
+    afterAll(async () => {
+        await new Promise(resolve => {
+            rule1Server.close(resolve);
+        });
+        await proxyServer.stop();
+        await wait(500);
     });
 
     it('should execute middlewares correctly', async () => {

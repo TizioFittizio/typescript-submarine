@@ -22,7 +22,7 @@ export class HttpProxyProxyServer implements ProxyServer {
         this.proxyRules = [];
         this.httpProxy = httpProxy.createProxyServer({
             secure: false, // To enable on production
-            changeOrigin: true 
+            changeOrigin: true
         });
         this.httpServer = null;
     }
@@ -36,9 +36,7 @@ export class HttpProxyProxyServer implements ProxyServer {
                         this.httpProxy.web(req, res, {
                             target: proxyRule.hostTarget,
                             timeout: Constants.PROXY_TIMEOUT,
-                            proxyTimeout: Constants.PROXY_TIMEOUT,
-                            hostRewrite: '/',
-                            autoRewrite: true
+                            proxyTimeout: Constants.PROXY_TIMEOUT
                         });
                         return;
                     }
@@ -56,10 +54,14 @@ export class HttpProxyProxyServer implements ProxyServer {
     public async stop(): Promise<void> {
         if (!this.httpServer) console.warn('Proxy server not started');
         else return await new Promise((resolve, reject) => {
-            this.httpProxy.close(() => this.httpServer!.close((e) => {
+            this.httpServer!.close((e) => {
                 if (e) reject(e);
                 else resolve();
-            }));
+                // else this.httpProxy.close(() => {
+                //     console.log('Chiuso proxy server');
+                //     resolve();
+                // });
+            });
         });
     }
 
