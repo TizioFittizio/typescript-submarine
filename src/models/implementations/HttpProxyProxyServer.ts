@@ -57,10 +57,6 @@ export class HttpProxyProxyServer implements ProxyServer {
             this.httpServer!.close((e) => {
                 if (e) reject(e);
                 else resolve();
-                // else this.httpProxy.close(() => {
-                //     console.log('Chiuso proxy server');
-                //     resolve();
-                // });
             });
         });
     }

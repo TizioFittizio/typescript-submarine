@@ -101,10 +101,11 @@ describe('When using middlewares', () => {
     });
 
     afterAll(async () => {
+        await proxyServer.stop();
+        await wait(500);
         await new Promise(resolve => {
             rule1Server.close(resolve);
         });
-        await proxyServer.stop();
         await wait(500);
     });
 
