@@ -6,8 +6,6 @@ export class Main {
 
     public static async main() {
         await this.initServices();
-        const url = await blobService.uploadFile('Dockerfile', 'sda');
-        console.log(url);
     }
 
     private static async initServices(){
