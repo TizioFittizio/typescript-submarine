@@ -1,3 +1,3 @@
 export * from './IOC';
-export * from './ConfigService';
-export * from './LogService';
+export * from './ConfigServiceImp';
+export * from './LogServiceImp';
