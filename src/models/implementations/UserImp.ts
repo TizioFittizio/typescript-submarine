@@ -18,7 +18,7 @@ export class UserImp extends User {
         super(values);
         if (entity){
             this.entity = entity;
-            this._values.id = entity.id;
+            this.values.id = entity.id;
         }
         else {
             this.entity = null;
@@ -26,14 +26,14 @@ export class UserImp extends User {
     }
 
     public async save(): Promise<void> {
-        if (!this.entity) this.entity = new UserEntity(this._values);
+        if (!this.entity) this.entity = new UserEntity(this.values);
         else {
-            for (const key in this._values){
-                if (key !== 'id') (this.entity as any)[key] = (this._values as any)[key];
+            for (const key in this.values){
+                if (key !== 'id') (this.entity as any)[key] = (this.values as any)[key];
             }
         }
         await this.entity.save();
-        this._values.id = this.entity.id;
+        this.values.id = this.entity.id;
     }
 
 }

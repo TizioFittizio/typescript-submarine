@@ -11,15 +11,15 @@
     "build": "npm run clean && node ./node_modules/typescript/bin/tsc",
     "start": "npm run build && node ./dist/index.js",
     "dev": "ts-node-dev --respawn --poll  --all-deps ./src/index.ts",
-    "test": "jest --runInBand"
+    "test": "jest"
   },
   "dependencies": {
-    "@types/mongoose": "^5.3.18",
     "mongoose": "^5.4.14"
   },
   "devDependencies": {
     "@types/jest": "^24.0.0",
     "@types/node": "^10.12.15",
+    "@types/mongoose": "^5.3.18",
     "jest": "^23.6.0",
     "rimraf": "^2.6.3",
     "ts-jest": "^23.10.5",

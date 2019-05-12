@@ -1,5 +1,5 @@
-import { IConfigService, ILogService, IDbService } from './interfaces';
-import { LogService, ConfigService, MongoDbService } from '.';
+import { ConfigService, LogService, DBService } from './interfaces';
+import { MongoDBService, LogServiceImp, ConfigServiceImp } from '.';
 import { isTestEnvironment } from '../helpers/isTestEnvironment';
 import { HostLoaderTest, HostLoaderImp } from '../models';
 
@@ -7,14 +7,14 @@ export class IOC {
 
     private static _instance: IOC;
 
-    private _configService: IConfigService;
-    private _logService: ILogService;
-    private _dbService: IDbService;
+    private _configService: ConfigService | null;
+    private _logService: LogService | null;
+    private _mongoService: DBService | null;
 
     private constructor(){
-        this._configService = new ConfigService();
-        this._logService = new LogService();
-        this._dbService = new MongoDbService(this.logService, this.hostLoader);
+        this._configService = null;
+        this._logService = null;
+        this._mongoService = null;
     }
 
     public static get instance(){
@@ -23,15 +23,18 @@ export class IOC {
     }
 
     public get configService(){
+        if (!this._configService) this._configService = new ConfigServiceImp();
         return this._configService;
     }
 
     public get logService(){
+        if (!this._logService) this._logService = new LogServiceImp();
         return this._logService;
     }
 
     public get dbService(){
-        return this._dbService;
+        if (!this._mongoService) this._mongoService = new MongoDBService(this.logService, this.hostLoader);
+        return this._mongoService;
     }
 
     private get hostLoader(){

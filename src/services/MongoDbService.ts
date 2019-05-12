@@ -1,20 +1,19 @@
 import { HostLoader } from '../models/abstractions/HostLoader';
-import { IDbService } from './interfaces/IDbService';
-import { ILogService } from './interfaces';
 import * as mongoose from 'mongoose';
+import { LogService, DBService } from './interfaces';
 import { LogLevel } from '../config/Enums';
 
-export class MongoDbService implements IDbService {
+export class MongoDBService implements DBService {
 
     private static readonly MONGOOSE_OPTIONS = {
         useNewUrlParser: true,
         useCreateIndex: true
     };
 
-    private logService: ILogService;
+    private logService: LogService;
     private hostLoader: HostLoader;
 
-    constructor(logService: ILogService, hostLoader: HostLoader){
+    constructor(logService: LogService, hostLoader: HostLoader){
         this.logService = logService;
         this.hostLoader = hostLoader;
         (mongoose as any).Promise = global.Promise;
@@ -23,7 +22,7 @@ export class MongoDbService implements IDbService {
     public async connect() {
         const mongoHost = this.hostLoader.getHost();
         await new Promise<void>((resolve, reject) => {
-            mongoose.connect(mongoHost, MongoDbService.MONGOOSE_OPTIONS)
+            mongoose.connect(mongoHost, MongoDBService.MONGOOSE_OPTIONS)
             .then(() => {
                 this.logService.log('DbService', LogLevel.INFO, 'Db connected');
                 resolve();

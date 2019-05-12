@@ -1,4 +1,4 @@
-# This Dockerfile its used for production and a dist folder already builded its expected
+# This Dockerfile is used for production and a dist folder already builded its expected
 FROM node:alpine
 WORKDIR "/app"
 COPY ./package.json ./

@@ -1,13 +1,13 @@
 import { Constants } from '../../config/Constants';
 import { HostLoader } from '../abstractions/HostLoader';
-import { IConfigService } from '../../services/interfaces';
 import { NotInitializedError } from '../../config/Errors';
+import { ConfigService } from '../../services/interfaces';
 
 export class HostLoaderTest implements HostLoader {
 
-    private configService: IConfigService;
+    private configService: ConfigService;
 
-    constructor(configService: IConfigService){
+    constructor(configService: ConfigService){
         this.configService = configService;
     }
 

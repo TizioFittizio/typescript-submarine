@@ -1,5 +1,5 @@
 import { HostLoaderTest } from '../../models/implementations/HostLoaderTest';
-import { MongoDbService } from './../../services/MongoDbService';
+import { MongoDBService } from '../../services/MongoDBService';
 import { IOC } from '../../services';
 import * as mongoose from 'mongoose';
 
@@ -10,7 +10,7 @@ beforeAll(() => {
 });
 
 it('should be able to connect and disconnect correctly', async () => {
-    const mongoDbService = new MongoDbService(logService, new HostLoaderTest(configService));
+    const mongoDbService = new MongoDBService(logService, new HostLoaderTest(configService));
     await mongoDbService.connect();
     expect(mongoose.connection.db.databaseName).toBe('test'); // db name in constants
     await mongoDbService.disconnect();
