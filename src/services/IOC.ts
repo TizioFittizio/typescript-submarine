@@ -6,12 +6,12 @@ export class IOC {
 
     private static _instance: IOC;
 
-    private _configService: ConfigService;
-    private _logService: LogService;
+    private _configService: ConfigService | null;
+    private _logService: LogService | null;
 
     private constructor(){
-        this._configService = new ConfigServiceImp();
-        this._logService = new LogServiceImp();
+        this._configService = null;
+        this._logService = null;
     }
 
     public static get instance(){
@@ -20,10 +20,12 @@ export class IOC {
     }
 
     public get configService(){
+        if (!this._configService) this._configService = new ConfigServiceImp();
         return this._configService;
     }
 
     public get logService(){
+        if (!this._logService) this._logService = new LogServiceImp();
         return this._logService;
     }
 
