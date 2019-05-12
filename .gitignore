@@ -7,13 +7,8 @@
 /.vscode
 
 .env
-secrets.json
-secrets-test.json
-config.json
-config-test.json
+secrets*.json
+config*.json
 
-yarn.lock
-yarn-error.log
-
-error.log
-info.log
+*.lock
+*.log

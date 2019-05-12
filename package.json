@@ -11,8 +11,7 @@
     "build": "npm run clean && node ./node_modules/typescript/bin/tsc",
     "start": "npm run build && node ./dist/index.js",
     "dev": "ts-node-dev --respawn --poll  --all-deps ./src/index.ts",
-    "test": "jest",
-    "devTest": "jest --watchAll"
+    "test": "jest"
   },
   "dependencies": {
     "winston": "^3.2.1"
@@ -20,7 +19,6 @@
   "devDependencies": {
     "@types/jest": "^24.0.0",
     "@types/node": "^10.12.15",
-    "@types/winston": "^2.4.4",
     "jest": "^23.6.0",
     "rimraf": "^2.6.3",
     "ts-jest": "^23.10.5",

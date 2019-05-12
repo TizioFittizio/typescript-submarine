@@ -1,7 +1,7 @@
-import { LogService } from '../../services';
+import { LogServiceImp } from '../../services';
 import { LogLevel } from '../../config/Enums';
 
-const logService = new LogService();
+const logService = new LogServiceImp();
 const callerName = 'Jest';
 const testMessage = 'Message';
 let logMessage: string;

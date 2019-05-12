@@ -1,10 +1,10 @@
-import { ILogService } from './interfaces';
+import { LogService } from './interfaces';
 import { LogLevel } from '../config/Enums';
 import { createLogger, format, transports, Logger } from 'winston';
 
 type WinstonLogMethod = 'debug' | 'info' | 'warn' | 'error';
 
-export class WinstonLogService implements ILogService {
+export class WinstonLogService implements LogService {
 
     private static readonly LOG_LEVEL_MAP: { [level: number]: WinstonLogMethod } = {
         [LogLevel.DEBUG]: 'debug',

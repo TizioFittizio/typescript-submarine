@@ -1,8 +1,8 @@
-import { ConfigService } from '../../services/ConfigService';
+import { ConfigServiceImp } from '../../services/ConfigServiceImp';
 
 // tslint:disable:no-duplicate-string
 
-const configService = new ConfigService();
+const configService = new ConfigServiceImp();
 
 describe('When loading configurations', () => {
 

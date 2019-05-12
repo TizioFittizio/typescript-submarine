@@ -1,7 +1,7 @@
-import { IConfigService } from './interfaces';
+import { ConfigService } from './interfaces';
 import { Constants } from '../config/Constants';
 
-export class ConfigService implements IConfigService {
+export class ConfigServiceImp implements ConfigService {
 
     public loadConfiguration(): void {
         try {
