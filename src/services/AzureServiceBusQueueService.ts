@@ -1,77 +1,94 @@
 import { IQueueService } from './interfaces/IQueueService';
-import { OnMessage, OnError, Namespace, Receiver, QueueClient, Sender } from '@azure/service-bus';
 import { IConfigService, ILogService } from './interfaces';
 import { Constants } from '../config/Constants';
 import { NotInitializedError } from '../config/Errors';
+import {
+    ServiceBusClient,
+    SendableMessageInfo,
+    ReceiveMode,
+    Sender,
+    Receiver,
+    QueueClient
+} from '@azure/service-bus';
+import { LogLevel } from '../config/Enums';
 
 export class AzureServiceBusQueueService implements IQueueService {
 
     private logService: ILogService;
     private configService: IConfigService;
 
-    private namespace: Namespace | null;
-    private client: QueueClient | null;
-    private receiver: Receiver | null;
-    private sender: Sender | null;
-    private onMessageCallback: OnMessage;
-    private onErrorCallback: OnError;
+    private serviceBusClient: ServiceBusClient | null;
+    private queueClient: QueueClient | null;
 
-    private started: boolean;
+    private sender: Sender | null;
+    private receiver: Receiver | null;
+
+    private onErrorCallback: (error: any) => void;
 
     constructor(logService: ILogService, configService: IConfigService){
-        this.logService = logService;
         this.configService = configService;
-        this.namespace = null;
-        this.client = null;
-        this.receiver = null;
+        this.logService = logService;
+        this.serviceBusClient = null;
+        this.queueClient = null;
         this.sender = null;
-        this.onMessageCallback = async () => { throw new NotInitializedError('On message callback not implemented'); };
-        this.onErrorCallback = async () => { throw new NotInitializedError('On error callback not implemented'); };
-        this.started = false;
+        this.receiver = null;
+        this.onErrorCallback = (e) => this.logService.log('AzureServiceBus', LogLevel.ERROR, e.message);
     }
 
     public init(): void {
-        const connectionString = this.getConnectionString();
-        this.namespace = Namespace.createFromConnectionString(connectionString);
-        this.client = this.namespace.createQueueClient(Constants.AZURE_SERVICE_BUS_QUEUE_NAME);
-        this.receiver = this.client.getReceiver();
-        this.sender = this.client.getSender();
+        const connectionString = this.configService.getString(Constants.CONFIG_KEY_AZURE_SERVICE_BUS_CONNECTION_STRING);
+        if (!connectionString) throw new NotInitializedError('Azure service bus connection string not set');
+        this.serviceBusClient = ServiceBusClient.createFromConnectionString(connectionString);
+        this.queueClient = this.serviceBusClient.createQueueClient(Constants.AZURE_SERVICE_BUS_QUEUE_NAME);
     }
 
-    public async start(): Promise<void> {
-        if (!this.receiver) throw new NotInitializedError('Queue service hasn\'t been initialized');
-        this.receiver.receive(this.onMessageCallback, this.onErrorCallback, { autoComplete: true });
-        this.started = true;
+    public async startSender(): Promise<void> {
+        this.ensureInitialized();
+        this.sender = this.queueClient!.createSender();
+    }
+
+    public async startReceiver(): Promise<void> {
+        this.ensureInitialized();
+        this.receiver = this.queueClient!.createReceiver(ReceiveMode.receiveAndDelete);
     }
 
     public async sendMessage(message: any): Promise<void> {
-        this.ensureStarted();
-        this.sender!.send(message);
+        if (!this.sender) throw new Error('Sender not started');
+        try {
+            const messageToSend: SendableMessageInfo = { body: message };
+            await this.sender.send(messageToSend);
+        }
+        catch (e){
+            this.onErrorCallback(e);
+        }
     }
 
-    public setOnRecieveMessageCallback(callback: OnMessage): void {
-        this.onMessageCallback = callback;
+    public setOnRecieveMessageCallback(callback: (message: any) => Promise<void>): void {
+        if (!this.receiver) throw new Error('Receiver not started');
+        try {
+            this.receiver.registerMessageHandler(callback, this.onErrorCallback);
+        }
+        catch (e){
+            this.onErrorCallback(e);
+        }
     }
 
-    public setOnErrorCallback(callback: OnError): void {
+    public setOnErrorCallback(callback: (error: any) => Promise<void>): void {
         this.onErrorCallback = callback;
     }
 
     public async close(): Promise<void> {
-        this.ensureStarted();
-        this.receiver!.close();
-        this.client!.close();
-        this.namespace!.close();
+        this.ensureInitialized();
+        if (this.sender) await this.sender.close();
+        if (this.receiver) await this.receiver.close();
+        await this.queueClient!.close();
+        await this.serviceBusClient!.close();
     }
 
-    private getConnectionString(){
-        const connectionString = this.configService.getString(Constants.CONFIG_KEY_AZURE_SERVICE_BUS_CONNECTION_STRING);
-        if (!connectionString) throw new NotInitializedError('Azure service bus connection string not set');
-        return connectionString;
-    }
-
-    private ensureStarted(){
-        if (!this.started) throw new NotInitializedError('Queue service hasn\'t be started');
+    private ensureInitialized(){
+        if (!this.serviceBusClient || !this.queueClient) {
+            throw new NotInitializedError('Azure service bus not initialized');
+        }
     }
 
 }
