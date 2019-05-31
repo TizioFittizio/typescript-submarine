@@ -8,6 +8,10 @@ export class MissingValueError extends Error {
     public readonly status = 400;
 }
 
+export class InvalidValueError extends Error {
+    public readonly status = 400;
+}
+
 export class WrongCredentialsError extends Error {
     public readonly status = 401;
 }
