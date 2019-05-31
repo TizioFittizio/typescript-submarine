@@ -7,9 +7,8 @@ const request = require('supertest');
 
 // tslint:disable:no-identical-functions
 
-class TestController extends ExpressController {
-
-    protected controllerRoute: string = '/test';
+@ExpressController('/test')
+class TestController {
 
     @Get('')
     @Middleware(apiKeyMiddleware)
@@ -22,9 +21,10 @@ class TestController extends ExpressController {
 let server: ExpressServer;
 
 beforeAll(async () => {
-    server = new ExpressServer.Builder(9876)
-        .setControllers(TestController)
-        .build();
+    server = new ExpressServer({
+        port: 9876,
+        controllers: [TestController]
+    });
     await server.start();
 });
 

@@ -5,9 +5,8 @@ import { Request, Response } from 'express';
 import { sendErrorResponse } from '../helpers/sendErrorResponse';
 import { NotFoundError } from '../config/Errors';
 
-export class UsersController extends ExpressController {
-
-    protected controllerRoute: string = '/users';
+@ExpressController('/users')
+export class UsersController {
 
     @Get('')
     @Middleware(apiKeyMiddleware)

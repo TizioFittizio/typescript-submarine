@@ -10,16 +10,17 @@ export class ServerImp implements Server {
     private expressServer: ExpressServer;
 
     constructor(port: number) {
-        this.expressServer = new ExpressServer.Builder(port)
-            .setMiddlewares(
+        this.expressServer = new ExpressServer({
+            port,
+            controllers: [
+                UsersController
+            ],
+            middlewares: [
                 helmet(),
                 bodyParser.json(),
-                bodyParser.urlencoded({ extended: true }),
-            )
-            .setControllers(
-                UsersController
-            )
-            .build();
+                bodyParser.urlencoded({ extended: true })
+            ]
+        });
     }
 
     public async start(): Promise<void> {
