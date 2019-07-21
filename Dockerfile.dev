@@ -1,4 +1,4 @@
-# This Dockerfile its used for development, don't release a production image with this
+# This Dockerfile is used for development, don't release a production image with this
 # You must mount a docker volume to src in order to run the image: docker run -v $(pwd)/src:/app/src <image>
 FROM node:alpine
 WORKDIR "/app"
