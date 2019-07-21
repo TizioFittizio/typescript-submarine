@@ -3,7 +3,10 @@ import {
     MissingValueError,
     InvalidValueError,
     WrongCredentialsError,
-    NotFoundError
+    NotFoundError,
+    InvalidOperationError,
+    ForbiddenOperationError,
+    RemoteOperationError
 } from './../../config/Errors';
 
 it('should use not initialized error correctly', () => {
@@ -29,4 +32,19 @@ it('should use wrong credentials error correctly', () => {
 it('should use not found error correctly', () => {
     const error = new NotFoundError();
     expect(error.status).toBe(404);
+});
+
+it('should use invalid operation error correctly', () => {
+    const error = new InvalidOperationError();
+    expect(error.status).toBe(400);
+});
+
+it('should use forbidden operation error correctly', () => {
+    const error = new ForbiddenOperationError();
+    expect(error.status).toBe(403);
+});
+
+it('should use not remote operation error correctly', () => {
+    const error = new RemoteOperationError();
+    expect(error.status).toBe(500);
 });

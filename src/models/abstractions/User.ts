@@ -11,8 +11,10 @@ export abstract class User {
     protected values: UserValues;
 
     protected constructor(values: UserValues) {
-        this.values = values;
-        this.values.score = 0;
+        this.values = {
+            ...values,
+            score: values.score || 0
+        };
     }
 
     public incrementScore(){
