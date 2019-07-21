@@ -8,37 +8,39 @@ export interface UserValues {
 
 export abstract class User {
 
-    protected _values: UserValues;
+    protected values: UserValues;
 
     protected constructor(values: UserValues) {
-        this._values = values;
-        this._values.score = 0;
+        this.values = {
+            ...values,
+            score: values.score || 0
+        };
     }
 
     public incrementScore(){
-        this._values.score! ++;
+        this.values.score! ++;
     }
 
     public abstract save(): Promise<void>;
 
     public get id(){
-        return this._values.id;
+        return this.values.id;
     }
 
     public get name(){
-        return this._values.name;
+        return this.values.name;
     }
 
     public get surname(){
-        return this._values.surname;
+        return this.values.surname;
     }
 
     public get gender(){
-        return this._values.gender;
+        return this.values.gender;
     }
 
     public get score(){
-        return this._values.score!;
+        return this.values.score!;
     }
 
 }

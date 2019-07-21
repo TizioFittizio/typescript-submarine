@@ -1,6 +1,3 @@
-import { IQueueService } from './interfaces/IQueueService';
-import { IConfigService, ILogService } from './interfaces';
-import { Constants } from '../config/Constants';
 import { NotInitializedError } from '../config/Errors';
 import {
     ServiceBusClient,
@@ -11,11 +8,13 @@ import {
     QueueClient
 } from '@azure/service-bus';
 import { LogLevel } from '../config/Enums';
+import { QueueService, ConfigService, LogService } from './interfaces';
 
-export class AzureServiceBusQueueService implements IQueueService {
+export class AzureServiceBusQueueService<MessageSendType, MessageReceiveType>
+implements QueueService<MessageSendType, MessageReceiveType> {
 
-    private logService: ILogService;
-    private configService: IConfigService;
+    private configService: ConfigService;
+    private logService: LogService;
 
     private serviceBusClient: ServiceBusClient | null;
     private queueClient: QueueClient | null;
@@ -25,7 +24,7 @@ export class AzureServiceBusQueueService implements IQueueService {
 
     private onErrorCallback: (error: any) => void;
 
-    constructor(logService: ILogService, configService: IConfigService){
+    constructor(configService: ConfigService, logService: LogService){
         this.configService = configService;
         this.logService = logService;
         this.serviceBusClient = null;
@@ -35,11 +34,11 @@ export class AzureServiceBusQueueService implements IQueueService {
         this.onErrorCallback = (e) => this.logService.log('AzureServiceBus', LogLevel.ERROR, e.message);
     }
 
-    public init(): void {
-        const connectionString = this.configService.getString(Constants.CONFIG_KEY_AZURE_SERVICE_BUS_CONNECTION_STRING);
-        if (!connectionString) throw new NotInitializedError('Azure service bus connection string not set');
+    public init(connectionStringConfigKey: string, queueName: string): void {
+        const connectionString = this.configService.getString(connectionStringConfigKey);
+        if (!connectionString) throw new NotInitializedError('Connection string for service bus not set');
         this.serviceBusClient = ServiceBusClient.createFromConnectionString(connectionString);
-        this.queueClient = this.serviceBusClient.createQueueClient(Constants.AZURE_SERVICE_BUS_QUEUE_NAME);
+        this.queueClient = this.serviceBusClient.createQueueClient(queueName);
     }
 
     public async startSender(): Promise<void> {
@@ -52,7 +51,7 @@ export class AzureServiceBusQueueService implements IQueueService {
         this.receiver = this.queueClient!.createReceiver(ReceiveMode.receiveAndDelete);
     }
 
-    public async sendMessage(message: any): Promise<void> {
+    public async sendMessage(message: MessageSendType): Promise<void> {
         if (!this.sender) throw new Error('Sender not started');
         try {
             const messageToSend: SendableMessageInfo = { body: message };
@@ -63,10 +62,10 @@ export class AzureServiceBusQueueService implements IQueueService {
         }
     }
 
-    public setOnRecieveMessageCallback(callback: (message: any) => Promise<void>): void {
+    public setOnRecieveMessageCallback(callback: (message: MessageReceiveType) => Promise<void>): void {
         if (!this.receiver) throw new Error('Receiver not started');
         try {
-            this.receiver.registerMessageHandler(callback, this.onErrorCallback);
+            this.receiver.registerMessageHandler(callback as any, this.onErrorCallback);
         }
         catch (e){
             this.onErrorCallback(e);

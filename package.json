@@ -11,7 +11,7 @@
     "build": "npm run clean && node ./node_modules/typescript/bin/tsc",
     "start": "npm run build && node ./dist/index.js",
     "dev": "ts-node-dev --respawn --poll  --all-deps ./src/index.ts",
-    "test": "jest --watchAll"
+    "test": "jest"
   },
   "dependencies": {
     "@azure/service-bus": "^1.0.2"
@@ -29,5 +29,22 @@
     "tslint": "^5.11.0",
     "tslint-sonarts": "^1.8.0",
     "typescript": "^3.2.2"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   }
 }

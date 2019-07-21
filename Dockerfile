@@ -1,6 +1,6 @@
-# This Dockerfile its used for production and a dist folder already builded its expected
+# This Dockerfile is used for production and a dist folder already builded is expected
 FROM node:alpine
-WORKDIR "/app"
+WORKDIR /app
 COPY ./package.json ./
 RUN yarn install --prod --no-lockfile
 COPY ./dist ./dist/
