@@ -1,7 +1,7 @@
-import { ILogService } from './interfaces';
+import { LogService } from './interfaces';
 import { LogLevel } from '../config/Enums';
 
-export class LogService implements ILogService {
+export class LogServiceImp implements LogService {
 
     private static readonly LOG_LEVEL_CHAR_MAP = {
         [LogLevel.DEBUG]: 'D',
@@ -12,7 +12,7 @@ export class LogService implements ILogService {
     };
 
     public log(callerName: string, logLevel: LogLevel, message: string){
-        const logLevelChar = LogService.LOG_LEVEL_CHAR_MAP[logLevel];
+        const logLevelChar = LogServiceImp.LOG_LEVEL_CHAR_MAP[logLevel];
         const logMessage = `[${logLevelChar}] ${callerName} - ${message}`;
         if (logLevel <= LogLevel.INFO) console.log(logMessage);
         else if (logLevel <= LogLevel.WARN) console.warn(logMessage);

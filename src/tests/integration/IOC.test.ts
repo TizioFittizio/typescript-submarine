@@ -7,9 +7,9 @@ it('should obaint instance twice correctly', () => {
 });
 
 it('should obtain logService correctly', () => {
-    expect(iocInstance.configService).toBeTruthy();
+    for (let i = 0; i < 2; i++) expect(iocInstance.configService).toBeTruthy();
 });
 
 it('should obtain configService correctly', () => {
-    expect(iocInstance.logService).toBeTruthy();
+    for (let i = 0; i < 2; i++) expect(iocInstance.logService).toBeTruthy();
 });

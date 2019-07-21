@@ -1,7 +1,8 @@
-import { IConfigService } from './interfaces';
+import { ConfigService } from './interfaces';
 import { Constants } from '../config/Constants';
+import { NotInitializedError } from '../config/Errors';
 
-export class ConfigService implements IConfigService {
+export class ConfigServiceImp implements ConfigService {
 
     public loadConfiguration(): void {
         try {
@@ -18,6 +19,12 @@ export class ConfigService implements IConfigService {
         return value || null;
     }
 
+    public getStringOrThrow(configKey: string): string {
+        const string = this.getString(configKey);
+        if (!string) throw new NotInitializedError(`${configKey} not set`);
+        return string;
+    }
+
     public getNumber(configKey: string): number | null {
         const value = process.env[configKey];
         if (value !== '0' && !value) return null;
@@ -26,11 +33,23 @@ export class ConfigService implements IConfigService {
         return parsedValue;
     }
 
+    public getNumberOrThrow(configKey: string): number {
+        const number = this.getNumber(configKey);
+        if (!number) throw new NotInitializedError(`${configKey} not set`);
+        return number;
+    }
+
     public getBoolean(configKey: string): boolean | null {
         const value = process.env[configKey];
         if (value !== 'false' && !value) return null;
         if (value !== 'false' && value !== 'true') throw new Error(`Can\'t parse to boolean ${value}`);
         return value === 'true';
+    }
+
+    public getBooleanOrThrow(configKey: string): boolean {
+        const boolean = this.getBoolean(configKey);
+        if (!boolean) throw new NotInitializedError(`${configKey} not set`);
+        return boolean;
     }
 
 }

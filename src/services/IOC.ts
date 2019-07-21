@@ -1,17 +1,17 @@
-import { IConfigService, ILogService } from './interfaces';
-import { ConfigService } from '.';
-import { LogService } from './LogService';
+import { ConfigService, LogService } from './interfaces';
+import { ConfigServiceImp } from '.';
+import { LogServiceImp } from './LogServiceImp';
 
 export class IOC {
 
     private static _instance: IOC;
 
-    private _configService: IConfigService;
-    private _logService: ILogService;
+    private _configService: ConfigService | null;
+    private _logService: LogService | null;
 
     private constructor(){
-        this._configService = new ConfigService();
-        this._logService = new LogService();
+        this._configService = null;
+        this._logService = null;
     }
 
     public static get instance(){
@@ -20,10 +20,12 @@ export class IOC {
     }
 
     public get configService(){
+        if (!this._configService) this._configService = new ConfigServiceImp();
         return this._configService;
     }
 
     public get logService(){
+        if (!this._logService) this._logService = new LogServiceImp();
         return this._logService;
     }
 
