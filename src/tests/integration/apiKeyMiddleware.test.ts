@@ -2,6 +2,7 @@ import { Constants } from './../../config/Constants';
 import { apiKeyMiddleware } from './../../middlewares/apiKeyMiddleware';
 import { ExpressController, Get, Middleware, ExpressServer } from 'simple-express-ts';
 import { Request, Response } from 'express';
+import { ConfigServiceImp } from '../../services/ConfigServiceImp';
 
 const request = require('supertest');
 
@@ -11,7 +12,7 @@ const request = require('supertest');
 class TestController {
 
     @Get('')
-    @Middleware(apiKeyMiddleware)
+    @Middleware(apiKeyMiddleware(new ConfigServiceImp()))
     private async test(req: Request, res: Response){
         res.sendStatus(200);
     }

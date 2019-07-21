@@ -4,12 +4,13 @@ import { ExpressController, Get, Middleware, Post, Put } from 'simple-express-ts
 import { Request, Response } from 'express';
 import { sendErrorResponse } from '../helpers/sendErrorResponse';
 import { NotFoundError } from '../config/Errors';
+import { ConfigServiceImp } from '../services';
 
 @ExpressController('/users')
 export class UsersController {
 
     @Get('')
-    @Middleware(apiKeyMiddleware)
+    @Middleware(apiKeyMiddleware(new ConfigServiceImp()))
     private async get(req: Request, res: Response){
         try {
             res.send([{ id: '1' }, { id: '2' }]);
@@ -20,7 +21,7 @@ export class UsersController {
     }
 
     @Get('/:id')
-    @Middleware(apiKeyMiddleware)
+    @Middleware(apiKeyMiddleware(new ConfigServiceImp()))
     private async getId(req: Request, res: Response){
         try {
             const { id } = req.params;
@@ -33,7 +34,7 @@ export class UsersController {
     }
 
     @Post('')
-    @Middleware(apiKeyMiddleware)
+    @Middleware(apiKeyMiddleware(new ConfigServiceImp()))
     private async create(req: Request, res: Response){
         try {
             const { id } = req.body;
