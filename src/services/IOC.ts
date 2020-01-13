@@ -1,4 +1,4 @@
-import { AzureBlobService } from './AzureBlobService';
+import { BlobServiceAzure } from './BlobServiceAzure';
 import { IConfigService, ILogService } from './interfaces';
 import { ConfigService } from '.';
 import { LogService } from './LogService';
@@ -15,7 +15,7 @@ export class IOC {
     private constructor(){
         this._configService = new ConfigService();
         this._logService = new LogService();
-        this._blobService = new AzureBlobService(this.logService, this.configService);
+        this._blobService = new BlobServiceAzure(this.configService, this.logService);
     }
 
     public static get instance(){

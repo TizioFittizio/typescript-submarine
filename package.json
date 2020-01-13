@@ -14,7 +14,7 @@
     "test": "jest --watchAll"
   },
   "dependencies": {
-    "azure-storage": "^2.10.2"
+    "@azure/storage-blob": "^10.3.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.0",

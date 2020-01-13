@@ -1,6 +1,6 @@
 { 
     "compilerOptions": { 
-       "target":"esnext",
+       "target":"es5",
        "moduleResolution":"node",
        "module":"commonjs",
        "declaration":false,
@@ -17,8 +17,10 @@
        "outDir":"dist/",
        "baseUrl":"src/",
        "listFiles":false,
-       "noEmitHelpers":true,
-       "strict": true
+       "noEmitHelpers":false,
+       "strict": true,
+       "esModuleInterop": false,
+       "allowSyntheticDefaultImports": true
     },
     "include":[ 
        "src/**/*"
@@ -28,4 +30,3 @@
     ],
     "compileOnSave":false
 }
-  
