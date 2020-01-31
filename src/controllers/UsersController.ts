@@ -25,7 +25,7 @@ export class UsersController {
     private async getId(req: Request, res: Response){
         try {
             const { id } = req.params;
-            if (id > 10) throw new NotFoundError(`User with id ${id} not found`);
+            if (Number(id) > 10) throw new NotFoundError(`User with id ${id} not found`);
             res.send({ id });
         }
         catch (e){

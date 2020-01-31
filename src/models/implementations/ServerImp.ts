@@ -1,9 +1,9 @@
-
 import { Server } from './../abstractions/Server';
 import { ExpressServer } from 'simple-express-ts';
 import { UsersController } from '../../controllers/UsersController';
 import bodyParser = require('body-parser');
 import helmet = require('helmet');
+import { ClientController } from '../../controllers/ClientController';
 
 export class ServerImp implements Server {
 
@@ -13,6 +13,7 @@ export class ServerImp implements Server {
         this.expressServer = new ExpressServer({
             port,
             controllers: [
+                ClientController,
                 UsersController
             ],
             middlewares: [
