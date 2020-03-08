@@ -1,24 +1,24 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Constants } from './../../config/Constants';
 import { ServerImp } from './../../models/implementations/ServerImp';
 import { Response } from 'supertest';
-
-const request = require('supertest');
+import request from 'supertest';
 
 let server: ServerImp;
 const apiKey = '1';
 
-beforeAll(async () => {
+beforeAll(async() => {
     process.env[Constants.CONFIG_KEY_API_KEY] = apiKey;
     server = new ServerImp(3000);
     server.start();
 });
 
-afterAll(async () => {
+afterAll(async() => {
     server.stop();
 });
 
 describe('GET /users', () => {
-
     it('should obtain users correctly', done => {
         request(server.getApp())
             .get('/users')
@@ -29,11 +29,9 @@ describe('GET /users', () => {
             .expect(200)
             .end(done);
     });
-
 });
 
 describe('GET /users/:id', () => {
-
     it('should obtain user correctly', done => {
         request(server.getApp())
             .get('/users/10')
@@ -52,11 +50,9 @@ describe('GET /users/:id', () => {
             .expect(404)
             .end(done);
     });
-
 });
 
 describe('POST /users', () => {
-
     it('should create an user correctly', done => {
         request(server.getApp())
             .post('/users')
@@ -74,5 +70,4 @@ describe('POST /users', () => {
             .expect(400)
             .end(done);
     });
-
 });

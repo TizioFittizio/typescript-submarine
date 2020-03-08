@@ -1,3 +1,4 @@
+import { NotFoundError } from './../config/Errors';
 import { ExpressController, Get } from 'simple-express-ts';
 import { Request, Response } from 'express';
 import * as path from 'path';
@@ -26,10 +27,8 @@ export class ClientController {
         }
     }
 
-    private handleError(e: any, res: Response){
-        e.status = 404;
-        e.message = '';
-        sendErrorResponse(e, res);
+    private handleError(e: Error, res: Response){
+        sendErrorResponse(new NotFoundError(), res);
     }
 
 }

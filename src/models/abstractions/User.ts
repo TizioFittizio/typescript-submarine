@@ -1,5 +1,5 @@
 export interface UserValues {
-    id?: any;
+    id?: string;
     name: string;
     surname: string;
     gender: 'male' | 'female';
@@ -8,12 +8,14 @@ export interface UserValues {
 
 export abstract class User {
 
+    private static readonly DEFAULT_SCORE = 0;
+
     protected values: UserValues;
 
     protected constructor(values: UserValues) {
         this.values = {
             ...values,
-            score: values.score || 0
+            score: values.score ?? User.DEFAULT_SCORE
         };
     }
 

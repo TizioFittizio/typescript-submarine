@@ -1,4 +1,4 @@
-import { LogServiceImp } from '../../services';
+import { LogServiceImp } from '../../services/implementations';
 import { LogLevel } from '../../config/Enums';
 
 const logService = new LogServiceImp();

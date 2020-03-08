@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import { Constants } from './../../config/Constants';
 import { apiKeyMiddleware } from './../../middlewares/apiKeyMiddleware';
 import { ExpressController, Get, Middleware, ExpressServer } from 'simple-express-ts';
 import { Request, Response } from 'express';
-import { ConfigServiceImp } from '../../services/ConfigServiceImp';
-
-const request = require('supertest');
+import { ConfigServiceImp } from '../../services/implementations';
+import request from 'supertest';
 
 // tslint:disable:no-identical-functions
 
@@ -21,7 +22,7 @@ class TestController {
 
 let server: ExpressServer;
 
-beforeAll(async () => {
+beforeAll(async() => {
     server = new ExpressServer({
         port: 9876,
         controllers: [TestController]
@@ -29,7 +30,7 @@ beforeAll(async () => {
     await server.start();
 });
 
-afterAll(async () => {
+afterAll(async() => {
     await server.stop();
 });
 

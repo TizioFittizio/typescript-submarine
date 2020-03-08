@@ -1,25 +1,25 @@
 import { ServerImp } from './models/implementations/ServerImp';
 import { Constants } from './config/Constants';
-import { IOC } from './services';
+import { IOC } from './services/implementations';
 
 const { configService } = IOC.instance;
 
 export class Main {
 
-    public static async main() {
+    public async main() {
         this.initServices();
         await this.startServer();
     }
 
-    private static initServices(){
+    private initServices(){
         configService.loadConfiguration();
     }
 
-    private static async startServer(){
+    private async startServer(){
         const server = new ServerImp(Constants.SERVER_PORT);
         await server.start();
     }
 
 }
 
-Main.main();
+new Main().main().catch(e => console.error(e));

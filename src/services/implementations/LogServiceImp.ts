@@ -1,5 +1,5 @@
-import { LogService } from './interfaces';
-import { LogLevel } from '../config/Enums';
+import { LogService } from '../interfaces';
+import { LogLevel } from '../../config/Enums';
 
 export class LogServiceImp implements LogService {
 

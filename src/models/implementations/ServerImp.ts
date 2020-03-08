@@ -1,20 +1,20 @@
 import { Server } from './../abstractions/Server';
 import { ExpressServer } from 'simple-express-ts';
 import { UsersController } from '../../controllers/UsersController';
-import bodyParser = require('body-parser');
-import helmet = require('helmet');
+import bodyParser from 'body-parser';
+import helmet from 'helmet';
 import { ClientController } from '../../controllers/ClientController';
 
 export class ServerImp implements Server {
 
-    private expressServer: ExpressServer;
+    private readonly expressServer: ExpressServer;
 
-    constructor(port: number) {
+    public constructor(port: number) {
         this.expressServer = new ExpressServer({
             port,
             controllers: [
-                ClientController,
-                UsersController
+                UsersController,
+                ClientController
             ],
             middlewares: [
                 helmet(),

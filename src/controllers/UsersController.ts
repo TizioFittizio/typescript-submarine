@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import { MissingValueError } from './../config/Errors';
 import { apiKeyMiddleware } from './../middlewares/apiKeyMiddleware';
 import { ExpressController, Get, Middleware, Post, Put } from 'simple-express-ts';
 import { Request, Response } from 'express';
 import { sendErrorResponse } from '../helpers/sendErrorResponse';
 import { NotFoundError } from '../config/Errors';
-import { ConfigServiceImp } from '../services';
+import { ConfigServiceImp } from '../services/implementations';
 
 @ExpressController('/users')
 export class UsersController {
