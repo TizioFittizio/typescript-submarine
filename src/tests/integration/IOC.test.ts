@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { IOC } from '../../services';
+import { IOC } from '../../services/implementations';
 
 const iocInstance = IOC.instance;
 
-it('should obaint instance twice correctly', () => {
+it('should obtain instance twice correctly', () => {
     expect(IOC.instance).toBeTruthy();
 });
 

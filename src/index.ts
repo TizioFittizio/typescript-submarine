@@ -1,4 +1,4 @@
-import { IOC } from './services';
+import { IOC } from './services/implementations';
 
 const { configService } = IOC.instance;
 

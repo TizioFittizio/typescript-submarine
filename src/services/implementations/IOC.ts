@@ -1,6 +1,5 @@
-import { ConfigService, LogService } from './interfaces';
-import { ConfigServiceImp } from '.';
-import { LogServiceImp } from './LogServiceImp';
+import { ConfigService, LogService } from '../interfaces';
+import { ConfigServiceImp, LogServiceImp } from '.';
 
 export class IOC {
 

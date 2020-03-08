@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { ConfigServiceImp } from '../../services/ConfigServiceImp';
+import { ConfigServiceImp } from '../../services/implementations/ConfigServiceImp';
 
 // tslint:disable:no-duplicate-string
 

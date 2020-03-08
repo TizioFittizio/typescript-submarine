@@ -1,6 +1,6 @@
-import { ConfigService } from './interfaces';
-import { Constants } from '../config/Constants';
-import { NotInitializedError } from '../config/Errors';
+import { ConfigService } from '../interfaces';
+import { Constants } from '../../config/Constants';
+import { NotInitializedError } from '../../config/Errors';
 
 export class ConfigServiceImp implements ConfigService {
 
