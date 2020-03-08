@@ -1,6 +1,6 @@
 import { UserImp } from './../../models/implementations/UserImp';
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { UserEntity, UserEntityDocument } from './../../db/UserEntity';
+import { UserEntity, UserDAODocument } from '../../db/UserDAO';
 import { UserValues } from './../../models/abstractions/User';
 import { IOC } from '../../services/implementations/IOC';
 
@@ -59,7 +59,7 @@ describe('When creating user from values', () => {
 });
 
 describe('When creating user from dao', () => {
-    let userEntity: UserEntityDocument;
+    let userEntity: UserDAODocument;
 
     beforeEach(async() => {
         await UserEntity.deleteMany({ });

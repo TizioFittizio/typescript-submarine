@@ -11,7 +11,6 @@ export class ConfigServiceImp implements ConfigService {
             Object.keys(file).forEach(key => process.env[key] = file[key]);
         }
         catch (e){
-            console.error(e.message);
             // Assuming environment variables already loaded
         }
     }

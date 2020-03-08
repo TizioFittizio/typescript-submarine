@@ -1,13 +1,13 @@
-import { Constants } from './../config/Constants';
+import { Constants } from '../config/Constants';
 import { Schema, Document, Model } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { UserValues } from '../models';
 
-export interface UserEntityDocument extends Document, Omit<UserValues, 'id'> {
+export interface UserDAODocument extends Document, Omit<UserValues, 'id'> {
 
 }
 
-export type UserEntityModel = Model<UserEntityDocument>
+export type UserDAOModel = Model<UserDAODocument>
 
 const schema: Schema = new Schema({
     name: {
@@ -29,5 +29,5 @@ const schema: Schema = new Schema({
     }
 });
 
-export const UserEntity: UserEntityModel =
-mongoose.model<UserEntityDocument, UserEntityModel>(Constants.MONGO_MODEL_NAME_USER, schema);
+export const UserEntity: UserDAOModel =
+mongoose.model<UserDAODocument, UserDAOModel>(Constants.MONGO_MODEL_NAME_USER, schema);
