@@ -1,14 +1,14 @@
-import { ConfigService, LogService, DBService } from './interfaces';
-import { MongoDBService, LogServiceImp, ConfigServiceImp } from '.';
-import { isTestEnvironment } from '../helpers/isTestEnvironment';
-import { HostLoaderTest, HostLoaderImp } from '../models';
+import { ConfigService, LogService, DBService } from '../interfaces';
+import { DBServiceMongo, LogServiceImp, ConfigServiceImp } from '.';
 
 export class IOC {
 
     private static _instance: IOC;
 
     private _configService: ConfigService | null;
+
     private _logService: LogService | null;
+
     private _mongoService: DBService | null;
 
     private constructor(){
@@ -33,12 +33,8 @@ export class IOC {
     }
 
     public get dbService(){
-        if (!this._mongoService) this._mongoService = new MongoDBService(this.logService, this.hostLoader);
+        if (!this._mongoService) this._mongoService = new DBServiceMongo(this.logService, this.configService);
         return this._mongoService;
-    }
-
-    private get hostLoader(){
-        return isTestEnvironment() ? new HostLoaderTest(this.configService) : new HostLoaderImp(this.configService);
     }
 
 }

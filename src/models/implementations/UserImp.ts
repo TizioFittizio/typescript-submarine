@@ -1,16 +1,10 @@
+/* eslint-disable no-extra-parens */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UserValues } from './../abstractions/User';
 import { UserEntity, UserEntityDocument } from './../../db/UserEntity';
 import { User } from '../abstractions/User';
 
 export class UserImp extends User {
-
-    public static createFromValues(values: UserValues){
-        return new UserImp(values);
-    }
-
-    public static createFromEntity(entity: UserEntityDocument){
-        return new UserImp(entity.toObject(), entity);
-    }
 
     private entity: UserEntityDocument | null;
 
@@ -23,6 +17,14 @@ export class UserImp extends User {
         else {
             this.entity = null;
         }
+    }
+
+    public static createFromValues(values: UserValues){
+        return new UserImp(values);
+    }
+
+    public static createFromEntity(entity: UserEntityDocument){
+        return new UserImp(entity.toObject(), entity);
     }
 
     public async save(): Promise<void> {

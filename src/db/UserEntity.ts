@@ -1,15 +1,13 @@
 import { Constants } from './../config/Constants';
-import { UserValues } from './../models/abstractions/User';
 import { Schema, Document, Model } from 'mongoose';
 import * as mongoose from 'mongoose';
+import { UserValues } from '../models';
 
-export interface UserEntityDocument extends Document, UserValues {
-
-}
-
-export interface UserEntityModel extends Model<UserEntityDocument> {
+export interface UserEntityDocument extends Document, Omit<UserValues, 'id'> {
 
 }
+
+export type UserEntityModel = Model<UserEntityDocument>
 
 const schema: Schema = new Schema({
     name: {

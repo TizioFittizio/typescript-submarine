@@ -1,7 +1,8 @@
+import { UserImp } from './../../models/implementations/UserImp';
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import { UserEntity, UserEntityDocument } from './../../db/UserEntity';
-import { UserCreator } from './../../models/implementations/UserCreator';
 import { UserValues } from './../../models/abstractions/User';
-import { IOC } from '../../services';
+import { IOC } from '../../services/implementations/IOC';
 
 const { configService, dbService } = IOC.instance;
 
@@ -11,27 +12,26 @@ const dummyValues: UserValues = {
     gender: 'male'
 };
 
-beforeAll(async () => {
+beforeAll(async() => {
     configService.loadConfiguration();
     await dbService.connect();
 });
 
-afterAll(async () => {
+afterAll(async() => {
     await dbService.disconnect();
 });
 
 describe('When creating user from values', () => {
-
-    beforeEach(async () => {
+    beforeEach(async() => {
         await UserEntity.deleteMany({ });
     });
 
-    afterEach(async () => {
+    afterEach(async() => {
         await UserEntity.deleteMany({ });
     });
 
     it('should be created correctly', () => {
-        const user = UserCreator.create(dummyValues);
+        const user = UserImp.createFromValues(dummyValues);
         expect(user.name).toBe(dummyValues.name);
         expect(user.surname).toBe(dummyValues.surname);
         expect(user.gender).toBe(dummyValues.gender);
@@ -41,8 +41,8 @@ describe('When creating user from values', () => {
         expect(user.score).toBe(1);
     });
 
-    it('should be saved correctly', async () => {
-        const user = UserCreator.create(dummyValues);
+    it('should be saved correctly', async() => {
+        const user = UserImp.createFromValues(dummyValues);
         await user.save();
         expect(user.id).toBeTruthy();
         const userInDb = await UserEntity.findById(user.id);
@@ -56,25 +56,24 @@ describe('When creating user from values', () => {
         const usersInDb = await UserEntity.find({ });
         expect(usersInDb.length).toBe(1);
     });
-
 });
 
-describe('When creating user from entity id', () => {
-
+describe('When creating user from dao', () => {
     let userEntity: UserEntityDocument;
 
-    beforeEach(async () => {
+    beforeEach(async() => {
         await UserEntity.deleteMany({ });
         userEntity = new UserEntity(dummyValues);
         await userEntity.save();
     });
 
-    afterEach(async () => {
+    afterEach(async() => {
         await UserEntity.deleteMany({ });
     });
 
-    it('should be created correctly', async () => {
-        const user = await UserCreator.findById(userEntity.id);
+    it('should be created correctly', async() => {
+        const userDAO = await UserEntity.findById(userEntity.id).exec();
+        const user = UserImp.createFromEntity(userDAO!);
         expect(user).toBeTruthy();
         expect(user!.id).toBe(userEntity.id);
         expect(user!.name).toBe(dummyValues.name);
@@ -83,8 +82,9 @@ describe('When creating user from entity id', () => {
         expect(user!.score).toBe(0);
     });
 
-    it('should be saved correctly', async () => {
-        const user = await UserCreator.findById(userEntity.id);
+    it('should be saved correctly', async() => {
+        const userDAO = await UserEntity.findById(userEntity.id).exec();
+        const user = UserImp.createFromEntity(userDAO!);
         expect(user!.score).toBe(0);
         user!.incrementScore();
         expect(user!.score).toBe(1);
@@ -94,10 +94,4 @@ describe('When creating user from entity id', () => {
         const usersInDb = await UserEntity.find({ });
         expect(usersInDb.length).toBe(1);
     });
-
-    it('should return null for a not existing id', async () => {
-        const user = await UserCreator.findById(new UserEntity().id);
-        expect(user).toBeNull();
-    });
-
 });

@@ -1,15 +1,14 @@
-import { ConfigServiceImp } from '../../services/ConfigServiceImp';
+/* eslint-disable @typescript-eslint/no-magic-numbers */
+import { ConfigServiceImp } from '../../services/implementations/ConfigServiceImp';
 
 // tslint:disable:no-duplicate-string
 
 const configService = new ConfigServiceImp();
 
 describe('When loading configurations', () => {
-
     it('should not throw', () => {
         configService.loadConfiguration();
     });
-
 });
 
 beforeEach(() => {
@@ -20,7 +19,6 @@ beforeEach(() => {
 });
 
 describe('When getting a string', () => {
-
     it('should return a string with an existing configuration', () => {
         process.env.key1 = '12';
         const key1Value = configService.getString('key1');
@@ -32,10 +30,18 @@ describe('When getting a string', () => {
         expect(key2Value).toBeNull();
     });
 
+    it('should return value with orThrow method', () => {
+        process.env.key1 = '12';
+        const key1Value = configService.getStringOrThrow('key1');
+        expect(key1Value).toBe('12');
+    });
+
+    it('should throw when using orThrow method with a null value', () => {
+        expect(() => configService.getStringOrThrow('key2')).toThrow();
+    });
 });
 
 describe('When getting a number', () => {
-
     it('should return a number with an existing configuration', () => {
         process.env.key1 = '12';
         const key1Value = configService.getNumber('key1');
@@ -58,10 +64,18 @@ describe('When getting a number', () => {
         expect(key4Value).toBe(0);
     });
 
+    it('should return value with orThrow method', () => {
+        process.env.key1 = '12';
+        const key1Value = configService.getNumberOrThrow('key1');
+        expect(key1Value).toBe(12);
+    });
+
+    it('should throw when using orThrow method with null value', () => {
+        expect(() => configService.getNumberOrThrow('key3')).toThrow();
+    });
 });
 
 describe('When getting a boolean', () => {
-
     it('should return true with a configuration with value true', () => {
         process.env.key1 = 'true';
         const key1Value = configService.getBoolean('key1');
@@ -84,4 +98,13 @@ describe('When getting a boolean', () => {
         expect(key4Value).toBeNull();
     });
 
+    it('should return value with orThrow method', () => {
+        process.env.key1 = 'true';
+        const key1Value = configService.getBooleanOrThrow('key1');
+        expect(key1Value).toBe(true);
+    });
+
+    it('should throw when using orThrow method with null value', () => {
+        expect(() => configService.getBooleanOrThrow('key4')).toThrow();
+    });
 });
