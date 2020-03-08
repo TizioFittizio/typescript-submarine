@@ -4,14 +4,14 @@ const { configService } = IOC.instance;
 
 export class Main {
 
-    public static async main() {
+    public main() {
         this.initServices();
     }
 
-    private static initServices(){
+    private initServices(){
         configService.loadConfiguration();
     }
 
 }
 
-Main.main();
+new Main().main();

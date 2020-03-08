@@ -7,6 +7,7 @@ export class IOC {
     private static _instance: IOC;
 
     private _configService: ConfigService | null;
+
     private _logService: LogService | null;
 
     private constructor(){
