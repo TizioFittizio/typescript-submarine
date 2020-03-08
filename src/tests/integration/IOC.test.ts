@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { IOC } from '../../services/implementations';
+import { IOC } from '../../services/implementations/IOC';
 
 const iocInstance = IOC.instance;
 

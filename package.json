@@ -12,7 +12,9 @@
     "start": "npm run build && node ./dist/index.js",
     "test": "jest"
   },
-  "dependencies": {},
+  "dependencies": {
+    "mongoose": "^5.9.3"
+  },
   "devDependencies": {
     "@types/jest": "^24.0.0",
     "@types/mongoose": "^5.7.3",

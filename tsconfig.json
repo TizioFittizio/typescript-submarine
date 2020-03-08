@@ -17,7 +17,6 @@
        "outDir":"dist/",
        "baseUrl":"src/",
        "listFiles":false,
-       "noEmitHelpers":true,
        "strict": true
     },
     "include":[ 
