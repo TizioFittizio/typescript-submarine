@@ -2,31 +2,27 @@
   "name": "typescript-submarine",
   "author": "Luca Campana",
   "description": "A SOLID typescript template",
-  "version": "0.0.1",
+  "version": "1.1.0",
   "main": ".dist/index.js",
   "license": "MIT",
-  "repository": "TODO",
+  "repository": "https://github.com/TizioFittizio/typescript-submarine",
   "scripts": {
     "clean": "node ./node_modules/rimraf/bin.js dist",
     "build": "npm run clean && node ./node_modules/typescript/bin/tsc",
     "start": "npm run build && node ./dist/index.js",
-    "dev": "ts-node-dev --respawn --poll  --all-deps ./src/index.ts",
     "test": "jest"
   },
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^24.0.0",
     "@types/node": "^10.12.15",
-    "jest": "^23.6.0",
+    "@typescript-eslint/eslint-plugin": "^2.22.0",
+    "@typescript-eslint/parser": "^2.22.0",
+    "eslint": "^6.8.0",
+    "jest": "^25.1.0",
     "rimraf": "^2.6.3",
-    "ts-jest": "^23.10.5",
-    "ts-node": "^7.0.1",
-    "ts-node-dev": "^1.0.0-pre.32",
-    "tslint": "^5.11.0",
-    "tslint-sonarts": "^1.8.0",
-    "typescript": "^3.2.2"
+    "ts-jest": "^25.2.1",
+    "typescript": "^3.8.3"
   },
   "jest": {
     "roots": [
@@ -43,6 +39,8 @@
       "jsx",
       "json",
       "node"
-    ]
+    ],
+    "testEnvironment": "node",
+    "preset": "ts-jest"
   }
 }

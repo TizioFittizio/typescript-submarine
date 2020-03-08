@@ -1,12 +1,12 @@
-import { ConfigService, LogService } from './interfaces';
-import { ConfigServiceImp } from '.';
-import { LogServiceImp } from './LogServiceImp';
+import { ConfigService, LogService } from '../interfaces';
+import { ConfigServiceImp, LogServiceImp } from '.';
 
 export class IOC {
 
     private static _instance: IOC;
 
     private _configService: ConfigService | null;
+
     private _logService: LogService | null;
 
     private constructor(){

@@ -10,5 +10,4 @@
 secrets*.json
 config*.json
 
-*.lock
 *.log

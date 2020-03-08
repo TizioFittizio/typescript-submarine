@@ -1,11 +1,12 @@
-import { ConfigService } from './interfaces';
-import { Constants } from '../config/Constants';
-import { NotInitializedError } from '../config/Errors';
+import { ConfigService } from '../interfaces';
+import { Constants } from '../../config/Constants';
+import { NotInitializedError } from '../../config/Errors';
 
 export class ConfigServiceImp implements ConfigService {
 
     public loadConfiguration(): void {
         try {
+            // eslint-disable-next-line @typescript-eslint/no-require-imports
             const file = require(Constants.CONFIG_FILE_PATH);
             Object.keys(file).forEach(key => process.env[key] = file[key]);
         }
@@ -16,7 +17,7 @@ export class ConfigServiceImp implements ConfigService {
 
     public getString(configKey: string): string | null {
         const value = process.env[configKey];
-        return value || null;
+        return value ?? null;
     }
 
     public getStringOrThrow(configKey: string): string {
@@ -29,7 +30,7 @@ export class ConfigServiceImp implements ConfigService {
         const value = process.env[configKey];
         if (value !== '0' && !value) return null;
         const parsedValue = Number(value);
-        if (isNaN(parsedValue)) throw new Error(`Can\'t parse to number ${value}`);
+        if (isNaN(parsedValue)) throw new Error(`Can't parse to number ${value}`);
         return parsedValue;
     }
 
@@ -42,7 +43,7 @@ export class ConfigServiceImp implements ConfigService {
     public getBoolean(configKey: string): boolean | null {
         const value = process.env[configKey];
         if (value !== 'false' && !value) return null;
-        if (value !== 'false' && value !== 'true') throw new Error(`Can\'t parse to boolean ${value}`);
+        if (value !== 'false' && value !== 'true') throw new Error(`Can't parse to boolean ${value}`);
         return value === 'true';
     }
 

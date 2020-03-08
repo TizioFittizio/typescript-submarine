@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-magic-numbers */
 import { UserValues } from './../../models/abstractions/User';
 import { User } from '../../models/abstractions/User';
 
 class TestUser extends User {
 
+    // eslint-disable-next-line no-useless-constructor
     public constructor(values: UserValues){
         super(values);
     }
@@ -18,20 +20,19 @@ const createTestUser = (options?: { score?: number }) => {
         name: 'Luca',
         surname: 'MacKenzie',
         gender: 'male',
-        id: 5
+        id: '5'
     };
     if (options && options.score) values.score = options.score;
     return new TestUser(values);
 };
 
 describe('When created', () => {
-
     it('should be created correctly', () => {
         const user = createTestUser();
         expect(user.name).toBe('Luca');
         expect(user.surname).toBe('MacKenzie');
         expect(user.gender).toBe('male');
-        expect(user.id).toBe(5);
+        expect(user.id).toBe('5');
         expect(user.score).toBe(0);
     });
 
@@ -39,7 +40,6 @@ describe('When created', () => {
         const user = createTestUser({ score: 1337 });
         expect(user.score).toBe(1337);
     });
-
 });
 
 it('should increment score correctly', () => {
