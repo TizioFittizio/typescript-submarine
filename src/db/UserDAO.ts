@@ -29,5 +29,5 @@ const schema: Schema = new Schema({
     }
 });
 
-export const UserEntity: UserDAOModel =
+export const UserDAO: UserDAOModel =
 mongoose.model<UserDAODocument, UserDAOModel>(Constants.MONGO_MODEL_NAME_USER, schema);

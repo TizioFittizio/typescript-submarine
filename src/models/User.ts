@@ -6,13 +6,13 @@ export interface UserValues {
     score?: number;
 }
 
-export abstract class User {
+export class User {
 
     private static readonly DEFAULT_SCORE = 0;
 
-    protected values: UserValues;
+    private readonly values: UserValues;
 
-    protected constructor(values: UserValues) {
+    public constructor(values: UserValues) {
         this.values = {
             ...values,
             score: values.score ?? User.DEFAULT_SCORE
@@ -23,7 +23,9 @@ export abstract class User {
         this.values.score! ++;
     }
 
-    public abstract save(): Promise<void>;
+    public getValuesToPersist(){
+        return this.values;
+    }
 
     public get id(){
         return this.values.id;

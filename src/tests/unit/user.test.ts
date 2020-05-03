@@ -1,19 +1,6 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
-import { UserValues } from './../../models/abstractions/User';
-import { User } from '../../models/abstractions/User';
-
-class TestUser extends User {
-
-    // eslint-disable-next-line no-useless-constructor
-    public constructor(values: UserValues){
-        super(values);
-    }
-
-    public async save(): Promise<void> {
-        return void 0;
-    }
-
-}
+import { UserValues } from '../../models/User';
+import { User } from '../../models/User';
 
 const createTestUser = (options?: { score?: number }) => {
     const values: UserValues = {
@@ -23,7 +10,7 @@ const createTestUser = (options?: { score?: number }) => {
         id: '5'
     };
     if (options && options.score) values.score = options.score;
-    return new TestUser(values);
+    return new User(values);
 };
 
 describe('When created', () => {
